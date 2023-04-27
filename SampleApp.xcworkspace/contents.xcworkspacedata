@@ -5,6 +5,9 @@
       location = "group:SampleAppRelease/SampleAppRelease.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SampleAppCorePackage">
+      location = "group:SampleAppDebug/SampleAppDebug.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SampleAppCommonModule">
    </FileRef>
 </Workspace>
