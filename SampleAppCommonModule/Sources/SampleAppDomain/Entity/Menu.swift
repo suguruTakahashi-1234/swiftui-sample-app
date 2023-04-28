@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Menu.swift
 //  
 //
 //  Created by Suguru Takahashi on 2023/04/28.
@@ -7,10 +7,11 @@
 
 import Foundation
 
+// 安易にMenuという名前でstructを作ってしまったが、すでにSwiftの中でMenuという型が存在していたので、struct名を変えたほうがいいです🙏
 public struct Menu: Identifiable, Hashable {
     public let id: String = UUID().uuidString
     public let name: String
-    
+
     public init(name: String) {
         self.name = name
     }

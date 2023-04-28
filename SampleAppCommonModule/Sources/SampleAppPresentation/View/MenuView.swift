@@ -21,11 +21,11 @@ struct MenuView: View {
                 }
             }
             .navigationDestination(for: Menu.self) { menu in
-                // 本番データが欲しい場合
-                MenuDetailView<MenuDetailRepository>(menuDetailPresenter: MenuDetailPresenter(menu: menu))
+                // 本番データの場合
+                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepository()))
 
-                // スタブデータが欲しい場合
-                MenuDetailView<MockMenuDetailRepository>(menuDetailPresenter: MenuDetailPresenter(menu: menu))
+                // モックデータの場合
+                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MockMenuDetailRepository(detail: "モックから自由な値を設定してみた")))
             }
         }
         .task {
@@ -33,6 +33,7 @@ struct MenuView: View {
         }
         .alert("エラータイトル", isPresented: $menuPresenter.isShowingAlert) {
             Button("アラートの完了ボタン") {
+                // プリントされたエラーの他にも NavigationStack のエラーがでています🙏
                 print(menuPresenter.errorMessage)
                 dismiss()
             }
