@@ -8,10 +8,10 @@
 import Foundation
 import SampleAppDomain
 
-public struct MockMenuDetailRepository: MenuDetailRepositoryProtocol {
+public struct MenuDetailRepositoryStab: MenuDetailRepositoryProtocol {
     var detail: String
 
-    public init(detail: String = "モックから好きな紹介文が設定できます") {
+    public init(detail: String = "スタブから好きな紹介文が設定できます") {
         self.detail = detail
     }
 

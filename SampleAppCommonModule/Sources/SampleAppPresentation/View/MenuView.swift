@@ -24,8 +24,8 @@ struct MenuView: View {
                 // 本番データの場合
                 MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepository()))
 
-                // モックデータの場合
-                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MockMenuDetailRepository(detail: "モックから自由な値を設定してみた")))
+                // スタブの場合
+                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepositoryStab(detail: "スタブから自由な値を設定してみた")))
             }
         }
         .task {
@@ -47,9 +47,9 @@ struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepository()))
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MockMenuRepository()))
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MockMenuRepository(menus: [Menu(name: "好きな値を設定できる")])))
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MockMenuRepository(isFetchFailure: true)))
+            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepositoryStub()))
+            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepositoryStub(menus: [Menu(name: "好きな値を設定できる")])))
+            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepositoryStub(isFetchFailure: true)))
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  MenuRepositoryStub.swift
 //  
 //
 //  Created by Suguru Takahashi on 2023/04/27.
@@ -9,7 +9,7 @@ import Foundation
 import SampleAppCoreFoundation
 import SampleAppDomain
 
-public struct MockMenuRepository: MenuRepositoryProtocol {
+public struct MenuRepositoryStub: MenuRepositoryProtocol {
     var menus: [Menu]
     var isFetchFailure: Bool
 

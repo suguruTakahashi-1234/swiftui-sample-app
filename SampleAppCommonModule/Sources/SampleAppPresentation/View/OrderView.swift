@@ -26,23 +26,23 @@ struct OrderView: View {
             Spacer()
 
             Button(action: { orderPresenter.mockMenuButtonTapped1() }) {
-                Text("モックデータのメニューを表示する その1")
+                Text("スタブデータのメニューを表示する その1")
             }
             .sheet(isPresented: $orderPresenter.isPresentedMockMenu1) {
                 MenuView(menuPresenter: MenuPresenter(
-                    menuRepository: MockMenuRepository())
+                    menuRepository: MenuRepositoryStub())
                 )
             }
 
             Spacer()
 
             Button(action: { orderPresenter.mockMenuButtonTapped2() }) {
-                Text("モックデータのメニューを表示する その2")
+                Text("スタブデータのメニューを表示する その2")
             }
             .sheet(isPresented: $orderPresenter.isPresentedMockMenu2) {
                 MenuView(
                     menuPresenter: MenuPresenter(
-                        menuRepository: MockMenuRepository(menus: [Menu(name: "好きな値を設定できる")])
+                        menuRepository: MenuRepositoryStub(menus: [Menu(name: "好きな値を設定できる")])
                     )
                 )
             }
@@ -50,12 +50,12 @@ struct OrderView: View {
             Spacer()
 
             Button(action: { orderPresenter.mockMenuButtonTapped3() }) {
-                Text("モックデータのメニューを表示する その3 \nエラー系")
+                Text("スタブデータのメニューを表示する その3 \nエラー系")
             }
             .sheet(isPresented: $orderPresenter.isPresentedMockMenu3) {
                 MenuView(
                     menuPresenter: MenuPresenter(
-                        menuRepository: MockMenuRepository(isFetchFailure: true)
+                        menuRepository: MenuRepositoryStub(isFetchFailure: true)
                     )
                 )
             }

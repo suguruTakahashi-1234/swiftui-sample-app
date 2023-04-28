@@ -24,8 +24,8 @@ struct MenuDetailView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepository()))
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MockMenuDetailRepository()))
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MockMenuDetailRepository(detail: "モックから自由な値を設定してみた")))
+            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStab()))
+            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStab(detail: "スタブから自由な値を設定してみた")))
         }
     }
 }
