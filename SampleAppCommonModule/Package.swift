@@ -67,6 +67,8 @@ let package = Package(
         ),
         .testTarget(
             name: "SampleAppCommonModuleTests",
-            dependencies: ["SampleAppCommonModule"]),
+            dependencies: ["SampleAppCoreFoundation", "SampleAppCoreUI", "SampleAppFramework", "SampleAppPresentation"],
+            plugins: [.swiftlint]
+        ),
     ]
 )
