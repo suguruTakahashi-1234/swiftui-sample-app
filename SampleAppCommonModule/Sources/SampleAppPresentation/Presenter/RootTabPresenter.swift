@@ -9,7 +9,6 @@ import Foundation
 import SampleAppCoreUI
 import SwiftUI
 
-@MainActor
 class RootTabPresenter: ObservableObject {
     // Binding する変数のため set を許容にしている
     // 本当は private(set) としたい

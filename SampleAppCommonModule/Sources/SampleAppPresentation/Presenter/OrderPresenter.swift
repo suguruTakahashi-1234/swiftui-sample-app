@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 class OrderPresenter: ObservableObject {
     @Published var isPresentedMenu: Bool = false
     @Published var isPresentedMockMenu1: Bool = false

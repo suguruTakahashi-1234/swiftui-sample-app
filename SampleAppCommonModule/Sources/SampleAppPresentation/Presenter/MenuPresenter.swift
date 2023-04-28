@@ -9,7 +9,6 @@ import Foundation
 import SampleAppDomain
 import SampleAppFramework
 
-@MainActor
 class MenuPresenter: ObservableObject {
     private let menuRepository: MenuRepositoryProtocol
 
@@ -22,12 +21,13 @@ class MenuPresenter: ObservableObject {
         self.menuRepository = menuRepository
     }
 
+    @MainActor
     func onAppear() async {
         do {
             menus = try await menuRepository.fetch()
         } catch {
+            errorMessage = error.localizedDescription
             isShowingAlert = true
-            self.errorMessage = error.localizedDescription
         }
     }
 }

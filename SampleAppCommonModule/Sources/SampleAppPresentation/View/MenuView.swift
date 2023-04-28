@@ -25,7 +25,7 @@ struct MenuView: View {
                 MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepository()))
 
                 // スタブの場合
-                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepositoryStab(detail: "スタブから自由な値を設定してみた")))
+                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepositoryStub(detail: "スタブから自由な値を設定してみた")))
             }
         }
         .task {
@@ -33,8 +33,7 @@ struct MenuView: View {
         }
         .alert("エラータイトル", isPresented: $menuPresenter.isShowingAlert) {
             Button("アラートの完了ボタン") {
-                // プリントされたエラーの他にも NavigationStack のエラーがでています🙏
-                print(menuPresenter.errorMessage)
+                // NavigationStack のエラーがでています🙏
                 dismiss()
             }
         } message: {

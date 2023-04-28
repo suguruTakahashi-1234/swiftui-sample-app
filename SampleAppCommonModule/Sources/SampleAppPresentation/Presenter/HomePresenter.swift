@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 class HomePresenter: ObservableObject {
     @Published var isPresentedPush: Bool = false
     @Published var isPresentedModal: Bool = false

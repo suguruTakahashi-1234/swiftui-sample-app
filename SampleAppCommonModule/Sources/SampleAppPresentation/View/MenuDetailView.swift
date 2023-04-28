@@ -17,6 +17,11 @@ struct MenuDetailView<Repository: MenuDetailRepositoryProtocol>: View {
             .task {
                 await menuDetailPresenter.onAppear()
             }
+            .alert("", isPresented: $menuDetailPresenter.isShowingAlert) {
+                Button("") {}
+            } message: {
+                Text(menuDetailPresenter.errorMessage)
+            }
     }
 }
 
@@ -24,8 +29,8 @@ struct MenuDetailView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepository()))
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStab()))
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStab(detail: "スタブから自由な値を設定してみた")))
+            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStub()))
+            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStub(detail: "スタブから自由な値を設定してみた")))
         }
     }
 }

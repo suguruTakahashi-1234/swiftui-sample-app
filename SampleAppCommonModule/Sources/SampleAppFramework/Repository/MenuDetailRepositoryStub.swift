@@ -8,7 +8,8 @@
 import Foundation
 import SampleAppDomain
 
-public struct MenuDetailRepositoryStab: MenuDetailRepositoryProtocol {
+// TODO: Mockolo で作成した MenuDetailRepositoryProtocolMock のように書き換えたほうが良さそう
+public struct MenuDetailRepositoryStub: MenuDetailRepositoryProtocol {
     var detail: String
 
     public init(detail: String = "スタブから好きな紹介文が設定できます") {
