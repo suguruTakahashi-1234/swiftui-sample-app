@@ -10,15 +10,15 @@ import SampleAppCoreFoundation
 import SampleAppDomain
 
 public struct MockMenuRepository: MenuRepositoryProtocol {
-    var menus: [String]
+    var menus: [Menu]
     var isFetchFailure: Bool
 
-    public init(menus: [String] = ["好きなモックデータを指定できる"], isFetchFailure: Bool = false) {
+    public init(menus: [Menu] = .stub(), isFetchFailure: Bool = false) {
         self.menus = menus
         self.isFetchFailure = isFetchFailure
     }
 
-    public func fetch() async throws -> [String] {
+    public func fetch() async throws -> [Menu] {
         guard !isFetchFailure else {
             throw MockError()
         }

@@ -15,7 +15,7 @@ class MenuPresenter: ObservableObject {
 
     @Published var isPresented: Bool = false
     @Published var isShowingAlert: Bool = false
-    @Published private(set) var menus: [String] = []
+    @Published private(set) var menus: [Menu] = []
     private(set) var errorMessage: String = ""
 
     init(menuRepository: MenuRepositoryProtocol = MenuRepository()) {

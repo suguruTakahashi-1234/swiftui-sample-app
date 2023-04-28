@@ -11,7 +11,7 @@ import SampleAppDomain
 public struct MenuRepository: MenuRepositoryProtocol {
     public init() {}
 
-    public func fetch() async throws -> [String] {
-        ["tea", "coffee"]
+    public func fetch() async throws -> [Menu] {
+        [Menu(name: "tea"), Menu(name: "coffee")]
     }
 }

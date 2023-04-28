@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol MenuRepositoryProtocol {
-    func fetch() async throws -> [String]
+    func fetch() async throws -> [Menu]
 }

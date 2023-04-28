@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SampleAppDomain
 import SampleAppFramework
 
 struct OrderView: View {
@@ -28,7 +29,9 @@ struct OrderView: View {
                 Text("モックデータのメニューを表示する その1")
             }
             .sheet(isPresented: $orderPresenter.isPresentedMockMenu1) {
-                MenuView(menuPresenter: MenuPresenter(menuRepository: MockMenuRepository()))
+                MenuView(menuPresenter: MenuPresenter(
+                    menuRepository: MockMenuRepository())
+                )
             }
 
             Spacer()
@@ -39,7 +42,7 @@ struct OrderView: View {
             .sheet(isPresented: $orderPresenter.isPresentedMockMenu2) {
                 MenuView(
                     menuPresenter: MenuPresenter(
-                        menuRepository: MockMenuRepository(menus: ["好きな", "モックデータ", "を", "指定できる"])
+                        menuRepository: MockMenuRepository(menus: [Menu(name: "好きな値を設定できる")])
                     )
                 )
             }
