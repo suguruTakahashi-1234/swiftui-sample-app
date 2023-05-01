@@ -14,23 +14,23 @@ struct HomeView: View {
         if #available(iOS 16.0, *) {
             NavigationStack {
                 Spacer()
-                
+
                 Button(action: { homePresenter.pushButtonTapped() }) {
                     Text("Push 遷移する")
                 }
                 .navigationDestination(isPresented: $homePresenter.isPresentedPush) {
                     Text("Push 遷移先の画面")
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: { homePresenter.modalButtonTapped() }) {
                     Text("Modal を表示する")
                 }
                 .sheet(isPresented: $homePresenter.isPresentedModal) {
                     HomeSubView()
                 }
-                
+
                 Spacer()
             }
         } else {

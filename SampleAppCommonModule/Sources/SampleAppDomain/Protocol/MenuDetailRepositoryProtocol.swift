@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// @mockable
 public protocol MenuDetailRepositoryProtocol {
     func fetch(menu: SampleAppDomain.Menu) async throws -> String
 }
