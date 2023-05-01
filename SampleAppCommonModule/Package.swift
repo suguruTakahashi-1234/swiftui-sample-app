@@ -18,7 +18,7 @@ private extension PackageDescription.Target.PluginUsage {
 let package = Package(
     name: "SampleAppCommonModule",
     defaultLocalization: "ja",
-    platforms: [.iOS(.v16)],
+    platforms: [.iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(name: "SampleAppCommonModule", targets: ["SampleAppCommonModule"]),

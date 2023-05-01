@@ -14,30 +14,35 @@ struct MenuView: View {
     @StateObject var menuPresenter: MenuPresenter
 
     var body: some View {
-        NavigationStack {
-            List(menuPresenter.menus, id: \.self.id) { menu in
-                NavigationLink(value: menu) {
-                    Text(menu.name)
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                List(menuPresenter.menus, id: \.self.id) { menu in
+                    NavigationLink(value: menu) {
+                        Text(menu.name)
+                    }
+                }
+                .navigationDestination(for: Menu.self) { menu in
+                    // 本番データの場合
+                    MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepository()))
+                    
+                    // スタブの場合
+                    MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepositoryStub(detail: "スタブから自由な値を設定してみた")))
                 }
             }
-            .navigationDestination(for: Menu.self) { menu in
-                // 本番データの場合
-                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepository()))
-
-                // スタブの場合
-                MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepositoryStub(detail: "スタブから自由な値を設定してみた")))
+            .task {
+                await menuPresenter.onAppear()
             }
-        }
-        .task {
-            await menuPresenter.onAppear()
-        }
-        .alert("エラータイトル", isPresented: $menuPresenter.isShowingAlert) {
-            Button("アラートの完了ボタン") {
-                // NavigationStack のエラーがでています🙏
-                dismiss()
+            .alert("エラータイトル", isPresented: $menuPresenter.isShowingAlert) {
+                Button("アラートの完了ボタン") {
+                    // NavigationStack のエラーがでています🙏
+                    dismiss()
+                }
+            } message: {
+                Text(menuPresenter.errorMessage)
             }
-        } message: {
-            Text(menuPresenter.errorMessage)
+        } else {
+            // TODO: 修正する
+            EmptyView()
         }
     }
 }

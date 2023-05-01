@@ -13,54 +13,59 @@ struct OrderView: View {
     @ObservedObject var orderPresenter: OrderPresenter
 
     var body: some View {
-        NavigationStack {
-            Spacer()
-
-            Button(action: { orderPresenter.menuButtonTapped() }) {
-                Text("メニューを表示する")
-            }
-            .sheet(isPresented: $orderPresenter.isPresentedMenu) {
-                MenuView(menuPresenter: MenuPresenter())
-            }
-
-            Spacer()
-
-            Button(action: { orderPresenter.mockMenuButtonTapped1() }) {
-                Text("スタブデータのメニューを表示する その1")
-            }
-            .sheet(isPresented: $orderPresenter.isPresentedMockMenu1) {
-                MenuView(menuPresenter: MenuPresenter(
-                    menuRepository: MenuRepositoryStub())
-                )
-            }
-
-            Spacer()
-
-            Button(action: { orderPresenter.mockMenuButtonTapped2() }) {
-                Text("スタブデータのメニューを表示する その2")
-            }
-            .sheet(isPresented: $orderPresenter.isPresentedMockMenu2) {
-                MenuView(
-                    menuPresenter: MenuPresenter(
-                        menuRepository: MenuRepositoryStub(menus: [Menu(name: "好きな値を設定できる")])
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                Spacer()
+                
+                Button(action: { orderPresenter.menuButtonTapped() }) {
+                    Text("メニューを表示する")
+                }
+                .sheet(isPresented: $orderPresenter.isPresentedMenu) {
+                    MenuView(menuPresenter: MenuPresenter())
+                }
+                
+                Spacer()
+                
+                Button(action: { orderPresenter.mockMenuButtonTapped1() }) {
+                    Text("スタブデータのメニューを表示する その1")
+                }
+                .sheet(isPresented: $orderPresenter.isPresentedMockMenu1) {
+                    MenuView(menuPresenter: MenuPresenter(
+                        menuRepository: MenuRepositoryStub())
                     )
-                )
-            }
-
-            Spacer()
-
-            Button(action: { orderPresenter.mockMenuButtonTapped3() }) {
-                Text("スタブデータのメニューを表示する その3 \nエラー系")
-            }
-            .sheet(isPresented: $orderPresenter.isPresentedMockMenu3) {
-                MenuView(
-                    menuPresenter: MenuPresenter(
-                        menuRepository: MenuRepositoryStub(isFetchFailure: true)
+                }
+                
+                Spacer()
+                
+                Button(action: { orderPresenter.mockMenuButtonTapped2() }) {
+                    Text("スタブデータのメニューを表示する その2")
+                }
+                .sheet(isPresented: $orderPresenter.isPresentedMockMenu2) {
+                    MenuView(
+                        menuPresenter: MenuPresenter(
+                            menuRepository: MenuRepositoryStub(menus: [Menu(name: "好きな値を設定できる")])
+                        )
                     )
-                )
+                }
+                
+                Spacer()
+                
+                Button(action: { orderPresenter.mockMenuButtonTapped3() }) {
+                    Text("スタブデータのメニューを表示する その3 \nエラー系")
+                }
+                .sheet(isPresented: $orderPresenter.isPresentedMockMenu3) {
+                    MenuView(
+                        menuPresenter: MenuPresenter(
+                            menuRepository: MenuRepositoryStub(isFetchFailure: true)
+                        )
+                    )
+                }
+                
+                Spacer()
             }
-
-            Spacer()
+        } else {
+            // TODO: 修正する
+            EmptyView()
         }
     }
 }
