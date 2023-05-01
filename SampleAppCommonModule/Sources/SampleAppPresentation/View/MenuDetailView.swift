@@ -27,10 +27,11 @@ struct MenuDetailView<Repository: MenuDetailRepositoryProtocol>: View {
 
 struct MenuDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepository()))
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStub()))
-            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: MenuDetailRepositoryStub(detail: "スタブから自由な値を設定してみた")))
+        let menuDetailRepository = MenuDetailRepositoryProtocolMock()
+        menuDetailRepository.fetchHandler = { _ in "適当な文字列" }
+
+        return VStack {
+            MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: menuDetailRepository))
         }
     }
 }

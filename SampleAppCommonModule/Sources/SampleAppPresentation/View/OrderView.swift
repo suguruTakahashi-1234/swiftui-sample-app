@@ -16,16 +16,16 @@ struct OrderView: View {
         if #available(iOS 16.0, *) {
             NavigationStack {
                 Spacer()
-                
+
                 Button(action: { orderPresenter.menuButtonTapped() }) {
                     Text("メニューを表示する")
                 }
                 .sheet(isPresented: $orderPresenter.isPresentedMenu) {
                     MenuView(menuPresenter: MenuPresenter())
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: { orderPresenter.mockMenuButtonTapped1() }) {
                     Text("スタブデータのメニューを表示する その1")
                 }
@@ -34,9 +34,9 @@ struct OrderView: View {
                         menuRepository: MenuRepositoryStub())
                     )
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: { orderPresenter.mockMenuButtonTapped2() }) {
                     Text("スタブデータのメニューを表示する その2")
                 }
@@ -47,9 +47,9 @@ struct OrderView: View {
                         )
                     )
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: { orderPresenter.mockMenuButtonTapped3() }) {
                     Text("スタブデータのメニューを表示する その3 \nエラー系")
                 }
@@ -60,7 +60,7 @@ struct OrderView: View {
                         )
                     )
                 }
-                
+
                 Spacer()
             }
         } else {
