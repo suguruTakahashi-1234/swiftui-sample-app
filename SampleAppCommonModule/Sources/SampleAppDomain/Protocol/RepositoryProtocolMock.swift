@@ -3,9 +3,8 @@
 ///
 
 import Foundation
-import SampleAppDomain
 
-public class MenuRepositoryProtocolMock: MenuRepositoryProtocol {
+public final class MenuRepositoryProtocolMock: MenuRepositoryProtocol {
     public init() {}
 
     public private(set) var fetchCallCount = 0
@@ -19,7 +18,7 @@ public class MenuRepositoryProtocolMock: MenuRepositoryProtocol {
     }
 }
 
-public class MenuDetailRepositoryProtocolMock: MenuDetailRepositoryProtocol {
+public final class MenuDetailRepositoryProtocolMock: MenuDetailRepositoryProtocol {
     public init() {}
 
     public private(set) var fetchCallCount = 0

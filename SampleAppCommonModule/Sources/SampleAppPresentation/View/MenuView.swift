@@ -5,6 +5,7 @@
 //  Created by Suguru Takahashi on 2023/04/27.
 //
 
+import SampleAppCoreFoundation
 import SampleAppDomain
 import SampleAppFramework
 import SwiftUI
@@ -22,11 +23,8 @@ struct MenuView: View {
                     }
                 }
                 .navigationDestination(for: Menu.self) { menu in
-                    // 本番データの場合
+                    // Presenter側でrepositoryの型指定しているためrepositoryの省略が不可になっている
                     MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepository()))
-                    
-                    // スタブの場合
-                    MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: menu, repository: MenuDetailRepositoryStub(detail: "スタブから自由な値を設定してみた")))
                 }
             }
             .task {
@@ -49,11 +47,15 @@ struct MenuView: View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepository()))
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepositoryStub()))
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepositoryStub(menus: [Menu(name: "好きな値を設定できる")])))
-            MenuView(menuPresenter: MenuPresenter(menuRepository: MenuRepositoryStub(isFetchFailure: true)))
+        let menuRepository = MenuRepositoryProtocolMock()
+        menuRepository.fetchHandler = { .stub() }
+        
+        let errorMenuRepository = MenuRepositoryProtocolMock()
+        errorMenuRepository.fetchHandler = { throw MockError() }
+
+        return VStack {
+            MenuView(menuPresenter: MenuPresenter(menuRepository: menuRepository))
+            MenuView(menuPresenter: MenuPresenter(menuRepository: errorMenuRepository))
         }
     }
 }

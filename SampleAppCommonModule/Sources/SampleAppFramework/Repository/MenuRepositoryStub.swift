@@ -9,7 +9,8 @@ import Foundation
 import SampleAppCoreFoundation
 import SampleAppDomain
 
-// TODO: Mockolo で作成した MenuRepositoryProtocolMock のように書き換えたほうが良さそう
+// Mockolo で自動生成した MenuRepositoryProtocolMock と役割が重複するのでどちらか一方のみで良さそう
+// 初期化時に色々設定できるのでこちらのstructでもよいが、Mockolo で自動生成したものを使ったほうがメンテが楽である
 public struct MenuRepositoryStub: MenuRepositoryProtocol {
     var menus: [Menu]
     var isFetchFailure: Bool
