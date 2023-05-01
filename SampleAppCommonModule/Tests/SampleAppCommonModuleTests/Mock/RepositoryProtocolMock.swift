@@ -6,7 +6,7 @@ import Foundation
 import SampleAppDomain
 
 public class MenuRepositoryProtocolMock: MenuRepositoryProtocol {
-    public init() { }
+    public init() {}
 
     public private(set) var fetchCallCount = 0
     public var fetchHandler: (() async throws -> ([Menu]))?
@@ -20,7 +20,7 @@ public class MenuRepositoryProtocolMock: MenuRepositoryProtocol {
 }
 
 public class MenuDetailRepositoryProtocolMock: MenuDetailRepositoryProtocol {
-    public init() { }
+    public init() {}
 
     public private(set) var fetchCallCount = 0
     public var fetchHandler: ((SampleAppDomain.Menu) async throws -> (String))?

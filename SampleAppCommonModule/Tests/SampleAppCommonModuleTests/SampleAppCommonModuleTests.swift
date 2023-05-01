@@ -1,5 +1,5 @@
-import XCTest
 @testable import SampleAppCommonModule
+import XCTest
 
 final class SampleAppCommonModuleTests: XCTestCase {
     func testExample() throws {

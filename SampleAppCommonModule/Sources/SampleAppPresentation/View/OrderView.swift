@@ -1,13 +1,13 @@
 //
 //  OrderView.swift
-//  
+//
 //
 //  Created by Suguru Takahashi on 2023/04/27.
 //
 
-import SwiftUI
 import SampleAppDomain
 import SampleAppFramework
+import SwiftUI
 
 struct OrderView: View {
     @ObservedObject var orderPresenter: OrderPresenter

@@ -1,12 +1,12 @@
 //
 //  MenuDetailPresenterTest.swift
-//  
+//
 //
 //  Created by Suguru Takahashi on 2023/04/28.
 //
 
-import Quick
 import Nimble
+import Quick
 @testable import SampleAppCoreFoundation
 @testable import SampleAppDomain
 @testable import SampleAppPresentation
@@ -17,7 +17,7 @@ class MenuDetailPresenterTest: QuickSpec {
             var menu: Menu!
             var repository: MenuDetailRepositoryProtocolMock!
             var presenter: MenuDetailPresenter<MenuDetailRepositoryProtocolMock>!
-            
+
             beforeEach {
                 menu = .stub()
                 repository = .init()

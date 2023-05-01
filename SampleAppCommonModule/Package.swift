@@ -34,6 +34,7 @@ let package = Package(
         .package(url: "https://github.com/realm/SwiftLint", branch: "main"),
         .package(url: "https://github.com/Quick/Quick", branch: "main"),
         .package(url: "https://github.com/Quick/Nimble", branch: "main"),
+        .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

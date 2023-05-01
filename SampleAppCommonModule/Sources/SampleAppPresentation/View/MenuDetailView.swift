@@ -5,9 +5,9 @@
 //  Created by Suguru Takahashi on 2023/04/27.
 //
 
-import SwiftUI
 import SampleAppDomain
 import SampleAppFramework
+import SwiftUI
 
 struct MenuDetailView<Repository: MenuDetailRepositoryProtocol>: View {
     @StateObject var menuDetailPresenter: MenuDetailPresenter<Repository>

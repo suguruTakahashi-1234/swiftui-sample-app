@@ -5,8 +5,8 @@
 //  Created by Suguru Takahashi on 2023/04/26.
 //
 
-import SwiftUI
 import SampleAppCoreUI
+import SwiftUI
 
 extension RootTabType: Identifiable {
     public var id: String {
@@ -36,7 +36,7 @@ extension RootTabType: Identifiable {
     }
 
     var text: Text {
-        Text(self.tabName)
+        Text(tabName)
     }
 
     @MainActor
@@ -61,7 +61,7 @@ public struct RootTabView: View {
     // 正直、今の実装はやりすぎかもしれない。View 側で RootTabType の指定が不要であれば、
     // RootTabPresenter 側でも RootTabType を引数として取る必要はない。
     public init(selectedTabType: RootTabType = .home) {
-        self._rootTabPresenter = StateObject(wrappedValue: RootTabPresenter(selectedTabType: selectedTabType))
+        _rootTabPresenter = StateObject(wrappedValue: RootTabPresenter(selectedTabType: selectedTabType))
     }
 
     public var body: some View {

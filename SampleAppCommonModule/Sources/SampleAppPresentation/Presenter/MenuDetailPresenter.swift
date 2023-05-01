@@ -1,6 +1,6 @@
 //
 //  MenuDetailPresenter.swift
-//  
+//
 //
 //  Created by Suguru Takahashi on 2023/04/28.
 //
