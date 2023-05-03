@@ -1,16 +1,11 @@
 #!/usr/bin/env sh
 
 # 関数
-color_red() {
-  ESC=$(printf '\033')
-  printf "$ESC[31m$1$ESC[m"
-}
-
 run_swiftformat() {
   command="swift run --package-path SampleAppToolsPackage swiftformat"
   command -v $command >/dev/null 2>&1
   if [ $? -gt 0 ]; then
-    echo $(color_red "😓 swiftformat コマンドが見つかりません。")
+    echo "😓 swiftformat コマンドが見つかりません。"
     exit 1
   fi
   $command "$@"
@@ -59,7 +54,7 @@ while read file; do
 done <<< "$staged_swift_files"
 
 if $should_fail; then
-  echo $(color_red "⛔️ SwiftFormatによってコードに変更が生じました。")
+  echo "⛔️ SwiftFormatによってコードに変更が生じました。"
   echo "変更を取り入れるなどの対応をお願いします。"
   exit 1
 fi
