@@ -10,4 +10,7 @@
    <FileRef
       location = "group:SampleAppCommonModule">
    </FileRef>
+   <FileRef
+      location = "group:SampleAppToolsPackage">
+   </FileRef>
 </Workspace>

@@ -31,7 +31,6 @@ let package = Package(
         .package(url: "https://github.com/realm/SwiftLint", branch: "main"),
         .package(url: "https://github.com/Quick/Quick", branch: "main"),
         .package(url: "https://github.com/Quick/Nimble", branch: "main"),
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
     ],
     targets: [
         .target(

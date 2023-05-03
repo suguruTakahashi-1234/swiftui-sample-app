@@ -49,7 +49,7 @@ struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
         let menuRepository = MenuRepositoryProtocolMock()
         menuRepository.fetchHandler = { .stub() }
-        
+
         let errorMenuRepository = MenuRepositoryProtocolMock()
         errorMenuRepository.fetchHandler = { throw MockError() }
 
