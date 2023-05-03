@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Run SwiftFormat in dryrun mode
-output=$(swift run --package-path SampleAppToolsPackage swiftformat --dryrun --verbose .)
+output=$(swift run --package-path SampleAppToolsPackage swiftformat --lint --lenient .)
 
 # Check if any files need formatting
 if [ -n "$output" ]; then
