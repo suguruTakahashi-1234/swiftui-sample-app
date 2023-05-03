@@ -1,4 +1,4 @@
-# Rule List - https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md
+# Swift バージョン
 
 --swiftversion 5.7.2 # Xcode 14.2
 
@@ -10,6 +10,8 @@
 # format options
 
 --ranges no-space # spaceAroundOperators 有効時に 例: "0...9" を "0 ... 9" としない
+
+# Rule List - https://github.com/nicklockwood/SwiftFormat/blob/0.51.8/Rules.md
 
 # Default Rules (enabled by default) デフォルトで有効なルール
 # コメントアウト部分が有効
