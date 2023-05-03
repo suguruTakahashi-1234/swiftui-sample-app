@@ -30,7 +30,7 @@ struct MenuDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let menuDetailRepository = MenuDetailRepositoryProtocolMock()
         menuDetailRepository.fetchHandler = { _ in "適当な文字列" }
-        
+
         let errorMenuDetailRepository = MenuDetailRepositoryProtocolMock()
         errorMenuDetailRepository.fetchHandler = { _ in throw MockError() }
 

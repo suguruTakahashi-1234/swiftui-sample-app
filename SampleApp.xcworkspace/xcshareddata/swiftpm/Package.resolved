@@ -87,7 +87,7 @@
       "location" : "https://github.com/nicklockwood/SwiftFormat",
       "state" : {
         "branch" : "master",
-        "revision" : "9b15bb9ed98d85e05f8a096edc6dc495a4215d94"
+        "revision" : "d98aa3f098f38e93324cfda8ee909581cf3d791d"
       }
     },
     {
@@ -96,7 +96,7 @@
       "location" : "https://github.com/realm/SwiftLint",
       "state" : {
         "branch" : "main",
-        "revision" : "86d60400c1f56f5808ade81ede71af5e9eeb12b6"
+        "revision" : "9054ec0658650e9a2a21e37a643b7c0f391487b9"
       }
     },
     {

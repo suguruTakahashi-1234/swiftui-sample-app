@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Run SwiftFormat in dryrun mode
+# Ref: https://github.com/nicklockwood/SwiftFormat
+output=$(swift run --package-path SampleAppToolsPackage swiftformat --lint --lenient .)
+
+# Check if any files need formatting
+if [ -n "$output" ]; then
+  echo "SwiftFormat: Some files need formatting:"
+  echo "$output"
+  echo "Please format your code using SwiftFormat and create a new commit."
+fi
