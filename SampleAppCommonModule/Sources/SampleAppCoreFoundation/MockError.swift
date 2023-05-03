@@ -25,7 +25,7 @@ public struct HogeError: Error, LocalizedError {
 
 public struct MogeError: Error, LocalizedError {
     public init() {}
-    
+
     public var errorDescription: String? {
         "MockError"
     }
