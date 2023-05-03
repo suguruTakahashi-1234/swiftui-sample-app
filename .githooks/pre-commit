@@ -1,4 +1,6 @@
-#!/usr/bin/env sh
+#!/bin/sh
+
+: '
 
 # 関数
 run_swiftformat() {
@@ -58,3 +60,5 @@ if $should_fail; then
   echo "変更を取り入れるなどの対応をお願いします。"
   exit 1
 fi
+
+'
