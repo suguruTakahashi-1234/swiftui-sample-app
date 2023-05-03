@@ -14,3 +14,11 @@ public struct MockError: Error, LocalizedError {
         "MockError"
     }
 }
+
+public struct HogeError: Error, LocalizedError {
+    public init() {}
+
+    public var errorDescription: String? {
+        "MockError"
+    }
+}
