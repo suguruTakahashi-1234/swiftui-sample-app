@@ -98,15 +98,15 @@
 # Opt-in Rules (disabled by default) デフォルトで無効なルール
 # コメントアウト部分は無効
 
-#--enable acronyms
-#--enable blankLineAfterImports
-#--enable blankLinesBetweenImports
-#--enable blockComments
-#--enable docComments
-#--enable isEmpty
-#--enable markTypes
-#--enable organizeDeclarations
-#--enable sortedSwitchCases
-#--enable wrapConditionalBodies
-#--enable wrapEnumCases
-#--enable wrapSwitchCases
+--enable acronyms
+--enable blankLineAfterImports
+--enable blankLinesBetweenImports
+--enable blockComments
+--enable docComments
+--enable isEmpty
+--enable markTypes
+--enable organizeDeclarations
+--enable sortedSwitchCases
+--enable wrapConditionalBodies
+--enable wrapEnumCases
+--enable wrapSwitchCases
