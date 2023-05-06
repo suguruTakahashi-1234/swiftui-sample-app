@@ -5,7 +5,6 @@
 //  Created by Suguru Takahashi on 2023/04/27.
 //
 
-@testable import SampleAppDebug
 import XCTest
 
 final class SampleAppDebugTests: XCTestCase {
