@@ -1,6 +1,11 @@
 name: sample
 
-on: push
+on:
+  workflow_dispatch:
+    inputs:
+      comment:
+        required: false
+        description: コメント
 
 jobs:
   sample_build:
