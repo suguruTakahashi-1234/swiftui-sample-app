@@ -6,7 +6,7 @@ import PackageDescription
 // Ref: https://twitter.com/_maiyama18/status/1631265021857783810
 private extension PackageDescription.Target.Dependency {
     static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
-    static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+    static let firebaseCrashlytics: Self = .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
     static let quick: Self = .product(name: "Quick", package: "Quick")
     static let nimble: Self = .product(name: "Nimble", package: "Nimble")
     // Same Package module
@@ -68,7 +68,7 @@ let package = Package(
         ),
         .target(
             name: "SampleAppCommonModule",
-            dependencies: [.appPresentation, .firebaseAnalytics]
+            dependencies: [.appPresentation, .firebaseAnalytics, .firebaseCrashlytics]
         ),
         .testTarget(
             name: "SampleAppCommonModuleTests",

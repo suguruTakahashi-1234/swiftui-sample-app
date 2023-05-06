@@ -39,7 +39,6 @@ extension RootTabType: Identifiable {
         Text(tabName)
     }
 
-    @MainActor
     @ViewBuilder
     var contentView: some View {
         switch self {
