@@ -9,7 +9,11 @@ import SwiftUI
 
 struct SettingView: View {
     var body: some View {
-        Text("SettingView")
+        VStack {
+            Button("Crash") {
+                fatalError("Crash was triggered")
+            }
+        }
     }
 }
 
