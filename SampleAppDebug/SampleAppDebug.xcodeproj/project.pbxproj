@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		442ECC762A05FB5D003F864C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442ECC752A05FB5D003F864C /* GoogleService-Info.plist */; };
 		44F6E54429FA6ED800899AB3 /* SampleAppDebugApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6E54329FA6ED800899AB3 /* SampleAppDebugApp.swift */; };
 		44F6E54629FA6ED800899AB3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6E54529FA6ED800899AB3 /* ContentView.swift */; };
 		44F6E54829FA6ED900899AB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44F6E54729FA6ED900899AB3 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		442ECC752A05FB5D003F864C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		443E8C2E29FFA6BA00D7DD20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		44F6E54029FA6ED800899AB3 /* SampleAppDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleAppDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44F6E54329FA6ED800899AB3 /* SampleAppDebugApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleAppDebugApp.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				443E8C2E29FFA6BA00D7DD20 /* Info.plist */,
+				442ECC752A05FB5D003F864C /* GoogleService-Info.plist */,
 				44F6E54329FA6ED800899AB3 /* SampleAppDebugApp.swift */,
 				44F6E54529FA6ED800899AB3 /* ContentView.swift */,
 				44F6E54729FA6ED900899AB3 /* Assets.xcassets */,
@@ -248,6 +251,7 @@
 			files = (
 				44F6E54B29FA6ED900899AB3 /* Preview Assets.xcassets in Resources */,
 				44F6E54829FA6ED900899AB3 /* Assets.xcassets in Resources */,
+				442ECC762A05FB5D003F864C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

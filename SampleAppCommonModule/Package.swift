@@ -5,10 +5,16 @@ import PackageDescription
 
 // Ref: https://twitter.com/_maiyama18/status/1631265021857783810
 private extension PackageDescription.Target.Dependency {
-    static let sampleAppCoreFoundation: Self = "SampleAppCoreFoundation"
-    static let sampleAppDomain: Self = "SampleAppDomain"
-    static let sampleAppCoreUI: Self = "SampleAppCoreUI"
-    static let sampleAppFramework: Self = "SampleAppFramework"
+    static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
+    static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+    static let quick: Self = .product(name: "Quick", package: "Quick")
+    static let nimble: Self = .product(name: "Nimble", package: "Nimble")
+    // Same Package module
+    static let appCoreFoundation: Self = "SampleAppCoreFoundation"
+    static let appDomain: Self = "SampleAppDomain"
+    static let appCoreUI: Self = "SampleAppCoreUI"
+    static let appFramework: Self = "SampleAppFramework"
+    static let appPresentation: Self = "SampleAppPresentation"
 }
 
 private extension PackageDescription.Target.PluginUsage {
@@ -32,6 +38,7 @@ let package = Package(
         .package(url: "https://github.com/Quick/Quick", branch: "main"),
         .package(url: "https://github.com/Quick/Nimble", branch: "main"),
         .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "master"),
     ],
     targets: [
         .target(
@@ -41,31 +48,31 @@ let package = Package(
         ),
         .target(
             name: "SampleAppDomain",
-            dependencies: ["SampleAppCoreFoundation"],
+            dependencies: [.appCoreFoundation],
             plugins: [.swiftlint]
         ),
         .target(
             name: "SampleAppCoreUI",
-            dependencies: ["SampleAppCoreFoundation"],
+            dependencies: [.appCoreFoundation],
             plugins: [.swiftlint]
         ),
         .target(
             name: "SampleAppFramework",
-            dependencies: ["SampleAppCoreFoundation", "SampleAppDomain"],
+            dependencies: [.appCoreFoundation, .appDomain],
             plugins: [.swiftlint]
         ),
         .target(
             name: "SampleAppPresentation",
-            dependencies: ["SampleAppCoreFoundation", "SampleAppCoreUI", "SampleAppFramework"],
+            dependencies: [.appCoreFoundation, .appCoreUI, .appFramework],
             plugins: [.swiftlint]
         ),
         .target(
             name: "SampleAppCommonModule",
-            dependencies: ["SampleAppPresentation"]
+            dependencies: [.appPresentation, .firebaseAnalytics]
         ),
         .testTarget(
             name: "SampleAppCommonModuleTests",
-            dependencies: ["SampleAppCoreFoundation", "SampleAppCoreUI", "SampleAppFramework", "SampleAppPresentation", "Quick", "Nimble"],
+            dependencies: [.appCoreFoundation, .appCoreUI, .appFramework, .appPresentation, .quick, .nimble],
             plugins: [.swiftlint]
         ),
     ]
