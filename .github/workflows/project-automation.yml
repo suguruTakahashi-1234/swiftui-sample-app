@@ -1,0 +1,27 @@
+name: Project Automation
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  automate-project:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Move new issue to project
+      if: github.event_name == 'issues'
+      uses: alex-page/github-project-automation-plus@v0.8.3
+      with:
+        project: "サンプルアプリ プロジェクト"
+        column: "📋 Backlog"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Move new pull request to project
+      if: github.event_name == 'pull_request'
+      uses: alex-page/github-project-automation-plus@v0.8.3
+      with:
+        project: "サンプルアプリ プロジェクト"
+        column: "👀 In review"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
