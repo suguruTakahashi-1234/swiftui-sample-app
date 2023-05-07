@@ -16,7 +16,7 @@ jobs:
       with:
         project: "サンプルアプリ プロジェクト"
         column: "📋 Backlog"
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.TEST }}
 
     - name: Move new pull request to project
       if: github.event_name == 'pull_request'
@@ -24,4 +24,4 @@ jobs:
       with:
         project: "サンプルアプリ プロジェクト"
         column: "👀 In review"
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.TEST }}
