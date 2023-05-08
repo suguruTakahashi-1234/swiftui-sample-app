@@ -1,4 +1,4 @@
-name: Notify reviewers on successful checks
+name: Notify on successful checks
 
 on:
   check_suite:
@@ -13,33 +13,33 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Notify reviewers on Slack
+    - name: Notify on Slack
       env:
-        SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
-        SLACK_CHANNEL_ID: "C05736775AM"
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         PR_ID=$(jq .pull_requests[0].number <(curl -s https://api.github.com/repos/${{ github.repository }}/check-suites/${{ github.event.check_suite.id }}))
         PR_DATA=$(curl -s https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID)
-        USERS=$(jq -r '.requested_reviewers | map(.login) | join(", ")' <<< $PR_DATA)
-        REVIEWS=$(curl -s https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/reviews)
-        USERS_APPROVED=$(jq -r '[.[] | select(.state=="APPROVED") | .user.login] | unique | join(", ")' <<< $REVIEWS)
 
         PR_TITLE=$(jq -r '.title' <<< $PR_DATA)
         PR_SENDER=$(jq -r '.user.login' <<< $PR_DATA)
         PR_LINK=$(jq -r '.html_url' <<< $PR_DATA)
 
+        APPROVED_USERS=$(curl -s https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/reviews?per_page=100 | jq '[.[] | select(.state == "APPROVED") | .user.login] | unique')
+        
         MENTIONS=""
-        for user in $USERS; do
-          if [[ ! $USERS_APPROVED =~ (^|[[:space:]])$user($|[[:space:]]) ]]; then
-            SLACK_USER_ID=$(curl -s -X POST -H "Authorization: Bearer $SLACK_API_TOKEN" -H "Content-type: application/json; charset=utf-8" --data '{"username": "'$user'"}' https://slack.com/api/users.lookupByEmail | jq -r '.user.id')
-            MENTIONS="$MENTIONS <@$SLACK_USER_ID>"
+        for reviewer in $(jq -r '.requested_reviewers.login' <<< $PR_DATA); do
+          if [[ ! $APPROVED_USERS =~ $reviewer ]]; then
+            MENTIONS+="@$reviewer "
           fi
         done
 
-        if [ -n "$MENTIONS" ]; then
-          MESSAGE_TEXT="$MENTIONS レビューをお願いします。\nPR の CI が通りました。\n\n$PR_TITLE\n$PR_LINK\n\nby @$PR_SENDER"
+        if [ -z "$MENTIONS" ]; then
+          MENTIONS_TEXT=""
         else
-          MESSAGE_TEXT="PR の CI が通りました。\n\n$PR_TITLE\n$PR_LINK\n\nby @$PR_SENDER"
+          MENTIONS_TEXT="\n$MENTIONSレビューをお願いします。"
         fi
 
-        curl -s -X POST -H "Authorization: Bearer $SLACK_API_TOKEN" -H "Content-type: application/json; charset=utf-8" --data '{"channel": "'$SLACK_CHANNEL_ID'", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "'"$MESSAGE_TEXT"'"}}]}' https://slack.com/api/chat.postMessage
+        MESSAGE_TEXT="*PR の CI が通りました。*$MENTIONS_TEXT\n\nTitle: $PR_TITLE\nURL: $PR_LINK\n\nby @$PR_SENDER"
+
+        curl -s -X POST -H "Content-type: application/json" --data '{"text": "'"${MESSAGE_TEXT}"'"}' $SLACK_WEBHOOK_URL
