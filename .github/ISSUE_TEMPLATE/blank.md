@@ -4,5 +4,4 @@ about: ブランク
 title: '【】'
 labels: ''
 assignees: ''
-
 ---
