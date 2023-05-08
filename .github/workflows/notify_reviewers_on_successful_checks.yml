@@ -31,11 +31,15 @@ jobs:
         MENTIONS=""
         for user in $USERS; do
           if [[ ! $USERS_APPROVED =~ (^|[[:space:]])$user($|[[:space:]]) ]]; then
-            SLACK_USER_ID=$(curl -s -X POST -H "Authorization: Bearer $SLACK_API_TOKEN" -H "Content-type: application/json" --data '{"username": "'$user'"}' https://slack.com/api/users.lookupByEmail | jq -r '.user.id')
+            SLACK_USER_ID=$(curl -s -X POST -H "Authorization: Bearer $SLACK_API_TOKEN" -H "Content-type: application/json; charset=utf-8" --data '{"username": "'$user'"}' https://slack.com/api/users.lookupByEmail | jq -r '.user.id')
             MENTIONS="$MENTIONS <@$SLACK_USER_ID>"
           fi
         done
 
-        MESSAGE_TEXT="PR の CI が通りました。レビューお願いします。 by @$PR_SENDER\n\n$PR_TITLE\n$PR_LINK"
+        if [ -n "$MENTIONS" ]; then
+          MESSAGE_TEXT="$MENTIONS レビューをお願いします。\nPR の CI が通りました。\n\n$PR_TITLE\n$PR_LINK\n\nby @$PR_SENDER"
+        else
+          MESSAGE_TEXT="PR の CI が通りました。\n\n$PR_TITLE\n$PR_LINK\n\nby @$PR_SENDER"
+        fi
 
-        curl -s -X POST -H "Authorization: Bearer $SLACK_API_TOKEN" -H "Content-type: application/json" --data '{"channel": "'$SLACK_CHANNEL_ID'", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "'"$MENTIONS"'"}}, {"type": "section", "text": {"type": "mrkdwn", "text": "'"$MESSAGE_TEXT"'"}}]}' https://slack.com/api/chat.postMessage
+        curl -s -X POST -H "Authorization: Bearer $SLACK_API_TOKEN" -H "Content-type: application/json; charset=utf-8" --data '{"channel": "'$SLACK_CHANNEL_ID'", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "'"$MESSAGE_TEXT"'"}}]}' https://slack.com/api/chat.postMessage
