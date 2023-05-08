@@ -1,30 +1,35 @@
-name: Notify Reviewers on Successful Checks
+name: Notify Reviewers on Assign
 
 on:
-  check_suite:
+  pull_request:
     types:
-      - completed
+      - review_requested
 
 jobs:
   notify_reviewers:
     runs-on: ubuntu-latest
-    if: github.event.check_suite.conclusion == 'success' && github.event.check_suite.app.slug == 'github-actions'
     steps:
-      - name: Get PR data
-        id: pr_data
+      - name: Check if CI is successful
+        id: check_ci
         run: |
-          PR_ID=$(gh api "search/issues?q=${{ github.event.check_suite.head_sha }}+repo:${{ github.repository }}+is:pr+is:open" -q '.items[0].number')
-          if [ -n "$PR_ID" ]; then
-            PR_DATA=$(gh pr view $PR_ID --json title,url,author,requestedReviewers)
-            echo "::set-output name=pr_data::$PR_DATA"
+          PR_ID=${{ github.event.pull_request.number }}
+          CHECK_STATUS=$(gh api repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/check-suites -q '.check_suites[] | select(.app.slug == "github-actions") | .conclusion')
+          if [[ $CHECK_STATUS == "success" ]]; then
+            echo "::set-output name=ci_successful::true"
+          else
+            echo "::set-output name=ci_successful::false"
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify reviewers
-        if: steps.pr_data.outputs.pr_data
+        if: steps.check_ci.outputs.ci_successful == 'true'
         run: |
-          PR_DATA="${{ steps.pr_data.outputs.pr_data }}"
+          PR_ID=${{ github.event.pull_request.number }}
+          PR_DATA=$(gh pr view $PR_ID --json title,url,author,assignees,requestedReviewers)
           PR_TITLE=$(echo "$PR_DATA" | jq -r '.title')
           PR_URL=$(echo "$PR_DATA" | jq -r '.url')
           AUTHOR_NAME=$(echo "$PR_DATA" | jq -r '.author.login')
+          ASSIGNMENT_DATA=$(echo "$PR_DATA" | jq -r '.assignees.nodes[].login')
           REVIEWER_DATA=$(echo "$PR_DATA" | jq -r '.requestedReviewers.nodes[] | select(.reviews.nodes[]? | .state == "APPROVED" | not) | .login')
           MENTIONS=$(printf "<@%s> " $REVIEWER_DATA)
           
