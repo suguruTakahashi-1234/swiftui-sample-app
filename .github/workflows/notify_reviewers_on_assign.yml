@@ -9,16 +9,18 @@ jobs:
   notify_reviewers:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        
       - name: Get PR data
         id: pr_data
         run: |
-          PR_ID=${{ github.event.pull_request.number }}
-          PR_DATA=$(gh pr view $PR_ID --json title,url,author,requestedReviewers)
-          echo "::set-output name=pr_data::$PR_DATA"
-          
+          PR_ID=$(gh api "search/issues?q=${{ github.event.pull_request.head.sha }}+repo:${{ github.repository }}+is:pr+is:open" -q '.items[0].number')
+          if [ -n "$PR_ID" ]; then
+            PR_DATA=$(gh pr view $PR_ID --json title,url,author,requestedReviewers)
+            echo "::set-output name=pr_data::$PR_DATA"
+          else
+            echo "Error: PR data could not be retrieved."
+            exit 1
+          fi
+
       - name: Notify reviewers
         if: steps.pr_data.outputs.pr_data
         run: |
@@ -27,16 +29,7 @@ jobs:
           PR_URL=$(echo "$PR_DATA" | jq -r '.url')
           AUTHOR_NAME=$(echo "$PR_DATA" | jq -r '.author.login')
           REVIEWER_DATA=$(echo "$PR_DATA" | jq -r '.requestedReviewers.nodes[] | select(.reviews.nodes[]? | .state == "APPROVED" | not) | .login')
-
-          # Load mapping
-          GITHUB_TO_SLACK_MAPPING=$(cat .github/github_to_slack_mapping.json | jq .)
-          AUTHOR_SLACK=$(echo $GITHUB_TO_SLACK_MAPPING | jq -r --arg AUTHOR "$AUTHOR_NAME" '.[$AUTHOR]')
-
-          MENTIONS=""
-          for reviewer in $REVIEWER_DATA; do
-            slack_username=$(echo $GITHUB_TO_SLACK_MAPPING | jq -r --arg REVIEWER "$reviewer" '.[$REVIEWER]')
-            MENTIONS="$MENTIONS@$slack_username "
-          done
+          MENTIONS=$(printf "<@%s> " $REVIEWER_DATA)
 
           if [ -n "$MENTIONS" ]; then
             SLACK_MESSAGE="{
@@ -45,11 +38,13 @@ jobs:
                   \"type\": \"section\",
                   \"text\": {
                     \"type\": \"mrkdwn\",
-                    \"text\": \"$MENTIONS レビューをお願いします。\n\n$PR_TITLE\n$PR_URL\n\nby @$AUTHOR_SLACK\"
+                    \"text\": \"$MENTIONS レビューをお願いします。\nPR の CI が通りました。\n\n$PR_TITLE\n$PR_URL\n\nby @$AUTHOR_NAME\"
                   }
                 }
               ]
             }"
-
             curl -s -X POST -H 'Content-type: application/json' --data "$SLACK_MESSAGE" "${{ secrets.SLACK_WEBHOOK_URL }}"
+          else
+            echo "Info: No reviewers found to mention. Skipping this job."
+            exit 0
           fi
