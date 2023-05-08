@@ -1,0 +1,16 @@
+# notify_reviewers_on_successful_checks がすぐに走らないようにするため5秒待つワークフローを用意する（応急処置）
+name: Delayed Check for Pull Requests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  sleep_for_5_seconds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep for 5 seconds
+        run: sleep 5s
