@@ -12,5 +12,5 @@ jobs:
   sleep_for_5_seconds:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep for 5 seconds
-        run: sleep 5s
+      - name: Sleep for 3 seconds
+        run: sleep 3s
