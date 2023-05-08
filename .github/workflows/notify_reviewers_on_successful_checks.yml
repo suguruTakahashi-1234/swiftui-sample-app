@@ -18,8 +18,8 @@ jobs:
             PR_DATA=$(gh pr view $PR_ID --json title,url,author,requestedReviewers)
             echo "::set-output name=pr_data::$PR_DATA"
           else
-            echo "Error: PR data could not be retrieved."
-            exit 1
+            echo "Info: PR data could not be retrieved."
+            exit 0
           fi
 
       - name: Notify reviewers
