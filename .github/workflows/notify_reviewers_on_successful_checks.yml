@@ -8,7 +8,7 @@ on:
 jobs:
   notify_reviewers:
     runs-on: ubuntu-latest
-    if: github.event.check_suite.conclusion == 'success' && github.event.check_suite.app.slug == 'github-actions'
+    if: github.event.check_suite.conclusion == 'success' && github.event.check_suite.pull_requests
     steps:
       - name: Get PR data
         id: pr_data
