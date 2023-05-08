@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       comment:
-        required: true
+        required: false
         description: Sample
 
 jobs:
