@@ -9,7 +9,7 @@ jobs:
   notify_reviewers:
     runs-on: ubuntu-latest
     # Execute the job only if the check_suite event is related to a pull request and all checks are successful
-    if: ${{ github.event.check_suite.conclusion == 'success' && github.event.check_suite.pull_requests != '[]' }}
+    if: ${{ github.event.check_suite.conclusion == 'success' && github.event.check_suite.pull_requests[0] }}
 
     steps:
     - name: Checkout repository
