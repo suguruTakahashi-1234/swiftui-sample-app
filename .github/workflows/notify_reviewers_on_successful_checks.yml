@@ -1,6 +1,12 @@
 name: Notify Reviewers on Successful Checks
 
+# This workflow triggers on pull request events and check suite events.
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
   check_suite:
     types:
       - completed
@@ -8,44 +14,52 @@ on:
 jobs:
   notify_reviewers:
     runs-on: ubuntu-latest
-    if: ${{ github.event.check_suite.conclusion == 'success' }}
+    # This job will run only if all checks have passed for the pull request.
+    if: ${{ github.event_name == 'check_suite' && github.event.check_suite.conclusion == 'success' }}
+
     steps:
-      - name: Get PR data
-        id: pr_data
-        run: |
-          PR_ID=$(gh api "search/issues?q=${{ github.event.check_suite.head_sha }}+repo:${{ github.repository }}+is:pr+is:open" -q '.items[0].number')
-          if [ -n "$PR_ID" ]; then
-            PR_DATA=$(gh pr view $PR_ID --json title,url,author,requestedReviewers)
-            echo "::set-output name=pr_data::$PR_DATA"
-          else
-            echo "Info: PR data could not be retrieved."
-            exit 0
-          fi
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Notify reviewers
-        if: steps.pr_data.outputs.pr_data
-        run: |
-          PR_DATA="${{ steps.pr_data.outputs.pr_data }}"
-          PR_TITLE=$(echo "$PR_DATA" | jq -r '.title')
-          PR_URL=$(echo "$PR_DATA" | jq -r '.url')
-          AUTHOR_NAME=$(echo "$PR_DATA" | jq -r '.author.login')
-          REVIEWER_DATA=$(echo "$PR_DATA" | jq -r '.requestedReviewers.nodes[] | select(.reviews.nodes[]? | .state == "APPROVED" | not) | .login')
-          MENTIONS=$(printf "<@%s> " $REVIEWER_DATA)
+    - name: Notify Reviewers on Slack
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        PR_URL="${{ github.event.pull_request.html_url }}"
+        PR_TITLE="${{ github.event.pull_request.title }}"
+        PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+        PR_NUMBER="${{ github.event.pull_request.number }}"
 
-          if [ -n "$MENTIONS" ]; then
-            SLACK_MESSAGE="{
-              \"blocks\": [
-                {
-                  \"type\": \"section\",
-                  \"text\": {
-                    \"type\": \"mrkdwn\",
-                    \"text\": \"$MENTIONS レビューをお願いします。\nPR の CI が通りました。\n\n$PR_TITLE\n$PR_URL\n\nby @$AUTHOR_NAME\"
-                  }
-                }
-              ]
-            }"
-            curl -s -X POST -H 'Content-type: application/json' --data "$SLACK_MESSAGE" "${{ secrets.SLACK_WEBHOOK_URL }}"
-          else
-            echo "Info: No reviewers found to mention. Skipping this job."
-            exit 0
+        # Fetch the reviewers who have not yet approved the pull request.
+        echo "Fetching requested reviewers..."
+        REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews \
+          | jq -r '.[] | select(.state!="APPROVED") | .user.login')
+
+        if [ -z "$REVIEWERS" ]; then
+          echo "No reviewers found or all reviewers have approved."
+          exit 0
+        fi
+
+        # Map the GitHub usernames to their corresponding Slack usernames.
+        echo "Fetching slack usernames..."
+        SLACK_USERNAMES=""
+        for REVIEWER in $REVIEWERS
+        do
+          SLACK_USERNAME=$(jq -r --arg github_user "$REVIEWER" '.[$github_user]' .github/github_to_slack_mapping.json)
+          if [ "$SLACK_USERNAME" != "null" ]; then
+            SLACK_USERNAMES="$SLACK_USERNAMES @$SLACK_USERNAME"
           fi
+        done
+
+        if [ -z "$SLACK_USERNAMES" ]; then
+          echo "No slack usernames found."
+          exit 0
+        fi
+
+        # Prepare the message to be sent on Slack.
+        MESSAGE="$SLACK_USERNAMES レビューをお願いします。\nPR の CI が通りました。\n\n$PR_TITLE\n$PR_URL\n\nby @$PR_AUTHOR"
+
+        # Send the message to the Slack channel using Incoming Webhook.
+        echo "Sending message to slack..."
+        curl -X POST -H 'Content-type: application/json' --data "{'text':'$MESSAGE'}" $SLACK_WEBHOOK_URL
