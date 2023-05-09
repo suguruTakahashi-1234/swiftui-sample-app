@@ -9,8 +9,9 @@ on:
       - reopened
 
 jobs:
-  sleep_for_5_seconds:
+  sample_build:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep for 5 seconds
-        run: sleep 5s
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
