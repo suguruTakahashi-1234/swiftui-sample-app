@@ -1,6 +1,5 @@
 name: Notify Reviewers on Successful Checks
 
-# This workflow triggers on pull request events and check suite events.
 on:
   pull_request:
     types:
