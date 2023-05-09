@@ -8,6 +8,8 @@ on:
 jobs:
   notify_reviewers:
     runs-on: ubuntu-latest
+    if: ${{ github.event.check_suite.conclusion == 'success' }}
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
