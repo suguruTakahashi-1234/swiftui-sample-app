@@ -51,7 +51,7 @@ struct MenuView_Previews: PreviewProvider {
         menuRepository.fetchHandler = { .stub() }
 
         let errorMenuRepository = MenuRepositoryProtocolMock()
-        errorMenuRepository.fetchHandler = { throw MockError() }
+        errorMenuRepository.fetchHandler = { throw MockError.mockError }
 
         return VStack {
             MenuView(menuPresenter: MenuPresenter(menuRepository: menuRepository))

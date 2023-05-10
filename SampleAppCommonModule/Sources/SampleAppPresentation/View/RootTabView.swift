@@ -15,6 +15,8 @@ extension RootTabType: Identifiable {
 
     var tabName: String {
         switch self {
+        case .login:
+            return "login"
         case .home:
             return "home"
         case .order:
@@ -26,6 +28,8 @@ extension RootTabType: Identifiable {
 
     var image: Image {
         switch self {
+        case .login:
+            return Image(systemName: "person")
         case .home:
             return Image(systemName: "house")
         case .order:
@@ -42,6 +46,8 @@ extension RootTabType: Identifiable {
     @ViewBuilder
     var contentView: some View {
         switch self {
+        case .login:
+            LoginView()
         case .home:
             HomeView(homePresenter: HomePresenter())
         case .order:

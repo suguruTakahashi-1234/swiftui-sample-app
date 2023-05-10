@@ -32,7 +32,7 @@ struct MenuDetailView_Previews: PreviewProvider {
         menuDetailRepository.fetchHandler = { _ in "適当な文字列" }
 
         let errorMenuDetailRepository = MenuDetailRepositoryProtocolMock()
-        errorMenuDetailRepository.fetchHandler = { _ in throw MockError() }
+        errorMenuDetailRepository.fetchHandler = { _ in throw MockError.mockError }
 
         return VStack {
             MenuDetailView(menuDetailPresenter: MenuDetailPresenter(menu: .stub(), repository: menuDetailRepository))

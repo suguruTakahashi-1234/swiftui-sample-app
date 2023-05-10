@@ -22,7 +22,7 @@ public struct MenuRepositoryStub: MenuRepositoryProtocol {
 
     public func fetch() async throws -> [Menu] {
         guard !isFetchFailure else {
-            throw MockError()
+            throw MockError.mockError
         }
         return menus
     }
