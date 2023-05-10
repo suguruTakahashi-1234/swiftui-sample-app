@@ -8,6 +8,7 @@
 import Foundation
 
 public enum RootTabType: Equatable, CaseIterable {
+    case login
     case home
     case order
     case setting

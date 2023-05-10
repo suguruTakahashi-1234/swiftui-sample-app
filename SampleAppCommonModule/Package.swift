@@ -5,6 +5,7 @@ import PackageDescription
 
 // Ref: https://twitter.com/_maiyama18/status/1631265021857783810
 private extension PackageDescription.Target.Dependency {
+    static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
     static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
     static let firebaseCrashlytics: Self = .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
     static let quick: Self = .product(name: "Quick", package: "Quick")
@@ -58,7 +59,7 @@ let package = Package(
         ),
         .target(
             name: "SampleAppFramework",
-            dependencies: [.appCoreFoundation, .appDomain],
+            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth],
             plugins: [.swiftlint]
         ),
         .target(
