@@ -7,10 +7,15 @@
 
 import Foundation
 
-public struct MockError: Error, LocalizedError {
-    public init() {}
+public enum MockError: Error {
+    case mockError
+}
 
+extension MockError: LocalizedError {
     public var errorDescription: String? {
-        "MockError"
+        switch self {
+        case .mockError:
+            return "Mock Error"
+        }
     }
 }

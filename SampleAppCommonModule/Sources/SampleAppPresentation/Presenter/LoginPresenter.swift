@@ -13,8 +13,8 @@ class LoginPresenter: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var showAlert: Bool = false
-    @Published var alertMessage: String = ""
-    @Published var idToken: String = ""
+    @Published private(set) var alertMessage: String = ""
+    @Published private(set) var idToken: String = ""
 
     private let authManager: AuthManagerProtocol
 
@@ -40,6 +40,16 @@ class LoginPresenter: ObservableObject {
             let idToken = try await authManager.getUserIdToken()
             self.idToken = idToken
             print("User signed in successfully")
+        } catch {
+            alertMessage = "Error signing in: \(error.localizedDescription)"
+            showAlert = true
+        }
+    }
+
+    @MainActor
+    func signOut() async {
+        do {
+            try await authManager.signOut()
         } catch {
             alertMessage = "Error signing in: \(error.localizedDescription)"
             showAlert = true

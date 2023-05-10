@@ -9,14 +9,6 @@ import FirebaseAuth
 import Foundation
 import SampleAppDomain
 
-public enum MockError: Error, LocalizedError {
-    case mockError
-
-    public var errorDescription: String? {
-        "MockError"
-    }
-}
-
 public enum FirebaseAuthManagerError: Error, LocalizedError {
     case noCurrentUser
 }
@@ -40,11 +32,22 @@ public class FirebaseAuthManager: AuthManagerProtocol {
         }
         return try await user.getIDToken()
     }
+
+    public func signOut() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            do {
+                try Auth.auth().signOut()
+                continuation.resume(returning: ())
+            } catch {
+                continuation.resume(throwing: error)
+            }
+        }
+    }
 }
 
 private extension AuthResult {
     init(from authDataResult: AuthDataResult) {
         let user = authDataResult.user
-        self.init(uid: user.uid, displayName: user.displayName, email: user.email)
+        self.init(uid: user.uid)
     }
 }

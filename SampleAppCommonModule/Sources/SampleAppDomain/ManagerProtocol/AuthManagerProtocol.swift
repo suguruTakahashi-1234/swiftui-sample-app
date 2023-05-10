@@ -12,4 +12,5 @@ public protocol AuthManagerProtocol {
     func createUser(email: String, password: String) async throws -> AuthResult
     func signIn(email: String, password: String) async throws -> AuthResult
     func getUserIdToken() async throws -> String
+    func signOut() async throws
 }

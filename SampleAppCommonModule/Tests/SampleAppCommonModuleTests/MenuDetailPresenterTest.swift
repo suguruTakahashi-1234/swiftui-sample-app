@@ -44,13 +44,13 @@ class MenuDetailPresenterTest: QuickSpec {
                 }
                 context("メニュー詳細の取得に失敗した場合") {
                     beforeEach {
-                        repository.fetchHandler = { _ in throw MockError() }
+                        repository.fetchHandler = { _ in throw MockError.mockError }
                         presenter = .init(menu: menu, repository: repository)
                         await presenter.onAppear()
                     }
                     it("アラートとエラー文言が表示されること") {
                         expect(presenter.isShowingAlert).to(equal(true))
-                        expect(presenter.errorMessage).to(equal("MockError"))
+                        expect(presenter.errorMessage).to(equal(MockError.mockError.localizedDescription))
                     }
                 }
             }

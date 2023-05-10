@@ -5,9 +5,14 @@ import PackageDescription
 
 // Ref: https://twitter.com/_maiyama18/status/1631265021857783810
 private extension PackageDescription.Target.Dependency {
+    // Amplify
+    static let amplify: Self = .product(name: "Amplify", package: "amplify-swift")
+    static let awsAPIPlugin: Self = .product(name: "AWSAPIPlugin", package: "amplify-swift")
+    // Firebase
     static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
     static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
     static let firebaseCrashlytics: Self = .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
+    // Quick/Nimble
     static let quick: Self = .product(name: "Quick", package: "Quick")
     static let nimble: Self = .product(name: "Nimble", package: "Nimble")
     // Same Package module
@@ -40,6 +45,7 @@ let package = Package(
         .package(url: "https://github.com/Quick/Nimble", branch: "main"),
         .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "master"),
+        .package(url: "https://github.com/aws-amplify/amplify-swift", branch: "main"),
     ],
     targets: [
         .target(
