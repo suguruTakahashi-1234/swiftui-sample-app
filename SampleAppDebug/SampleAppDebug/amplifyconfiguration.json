@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "plugins": {
+      "awsCognitoAuthPlugin": {
+        "IdentityManager": {
+          "Default": {}
+        },
+        "CognitoUserPool": {
+          "Default": {
+            "PoolId": "変更する",
+            "AppClientId": "変更する",
+            "Region": "変更する"
+          }
+        },
+        "Auth": {
+          "Default": {
+            "authenticationFlowType": "USER_SRP_AUTH"
+          }
+        }
+      }
+    }
+  }
+}
