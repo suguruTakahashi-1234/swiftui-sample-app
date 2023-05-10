@@ -7,7 +7,7 @@ import PackageDescription
 private extension PackageDescription.Target.Dependency {
     // Amplify
     static let amplify: Self = .product(name: "Amplify", package: "amplify-swift")
-    static let awsAPIPlugin: Self = .product(name: "AWSAPIPlugin", package: "amplify-swift")
+    static let awsCognitoAuthPlugin: Self = .product(name: "AWSCognitoAuthPlugin", package: "amplify-swift")
     // Firebase
     static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
     static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
@@ -65,7 +65,7 @@ let package = Package(
         ),
         .target(
             name: "SampleAppFramework",
-            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth],
+            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth, .amplify, .awsCognitoAuthPlugin],
             plugins: [.swiftlint]
         ),
         .target(
@@ -75,7 +75,7 @@ let package = Package(
         ),
         .target(
             name: "SampleAppCommonModule",
-            dependencies: [.appPresentation, .firebaseAnalytics, .firebaseCrashlytics]
+            dependencies: [.appPresentation, .firebaseAnalytics, .firebaseCrashlytics, .amplify, .awsCognitoAuthPlugin]
         ),
         .testTarget(
             name: "SampleAppCommonModuleTests",

@@ -18,6 +18,11 @@ public struct LoginView: View {
             NavigationStack {
                 ScrollView(.vertical) {
                     VStack {
+                        TextField("Username", text: $loginPresenter.username)
+                            .padding()
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+
                         TextField("Email", text: $loginPresenter.email)
                             .padding()
                             .autocapitalization(.none)
@@ -28,15 +33,27 @@ public struct LoginView: View {
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
 
-                        Text("Welcome, \(loginPresenter.idToken)")
+                        TextField("Confirmation Code", text: $loginPresenter.confirmationCode)
                             .padding()
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
 
                         Button {
-                            Task { await loginPresenter.createUser() }
+                            Task { await loginPresenter.signUp() }
                         } label: {
-                            Text("Register")
+                            Text("Sign Up")
                                 .padding()
                                 .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+
+                        Button {
+                            Task { await loginPresenter.confirmSignUp() }
+                        } label: {
+                            Text("Confirm Sign Up")
+                                .padding()
+                                .background(Color.orange)
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                         }

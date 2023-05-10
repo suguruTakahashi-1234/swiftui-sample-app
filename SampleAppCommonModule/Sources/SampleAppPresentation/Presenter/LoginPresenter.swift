@@ -10,22 +10,23 @@ import SampleAppDomain
 import SampleAppFramework
 
 class LoginPresenter: ObservableObject {
+    @Published var username: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
+    @Published var confirmationCode: String = ""
     @Published var showAlert: Bool = false
     @Published private(set) var alertMessage: String = ""
-    @Published private(set) var idToken: String = ""
 
     private let authManager: AuthManagerProtocol
 
-    init(authManager: AuthManagerProtocol = FirebaseAuthManager()) {
+    init(authManager: AuthManagerProtocol = AmplifyAuthManager()) {
         self.authManager = authManager
     }
 
     @MainActor
-    func createUser() async {
+    func signUp() async {
         do {
-            let _ = try await authManager.createUser(email: email, password: password)
+            try await authManager.signUp(username: username, password: password, email: email)
             print("User created successfully")
         } catch {
             alertMessage = "Error creating user: \(error.localizedDescription)"
@@ -34,11 +35,20 @@ class LoginPresenter: ObservableObject {
     }
 
     @MainActor
+    func confirmSignUp() async {
+        do {
+            try await authManager.confirmSignUp(for: username, with: confirmationCode)
+            print("User confirmed successfully")
+        } catch {
+            alertMessage = "Error confirming user: \(error.localizedDescription)"
+            showAlert = true
+        }
+    }
+
+    @MainActor
     func signIn() async {
         do {
-            let _ = try await authManager.signIn(email: email, password: password)
-            let idToken = try await authManager.getUserIdToken()
-            self.idToken = idToken
+            try await authManager.signIn(username: username, password: password, email: email)
             print("User signed in successfully")
         } catch {
             alertMessage = "Error signing in: \(error.localizedDescription)"

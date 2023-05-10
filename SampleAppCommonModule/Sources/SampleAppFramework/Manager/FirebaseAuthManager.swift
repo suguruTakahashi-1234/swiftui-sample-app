@@ -16,21 +16,16 @@ public enum FirebaseAuthManagerError: Error, LocalizedError {
 public class FirebaseAuthManager: AuthManagerProtocol {
     public init() {}
 
-    public func createUser(email: String, password: String) async throws -> AuthResult {
-        let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
-        return AuthResult(from: authDataResult)
+    public func signUp(username _: String, password: String, email: String) async throws {
+        try await Auth.auth().createUser(withEmail: email, password: password)
     }
 
-    public func signIn(email: String, password: String) async throws -> AuthResult {
-        let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
-        return AuthResult(from: authDataResult)
+    public func confirmSignUp(for username: String, with confirmationCode: String) async throws {
+        print("confirmSignUp: \(username), \(confirmationCode)")
     }
 
-    public func getUserIdToken() async throws -> String {
-        guard let user = Auth.auth().currentUser else {
-            throw FirebaseAuthManagerError.noCurrentUser
-        }
-        return try await user.getIDToken()
+    public func signIn(username _: String, password: String, email: String) async throws {
+        try await Auth.auth().signIn(withEmail: email, password: password)
     }
 
     public func signOut() async throws {
@@ -45,9 +40,11 @@ public class FirebaseAuthManager: AuthManagerProtocol {
     }
 }
 
-private extension AuthResult {
-    init(from authDataResult: AuthDataResult) {
-        let user = authDataResult.user
-        self.init(uid: user.uid)
+private extension FirebaseAuthManager {
+    func getUserIdToken() async throws -> String {
+        guard let user = Auth.auth().currentUser else {
+            throw FirebaseAuthManagerError.noCurrentUser
+        }
+        return try await user.getIDToken()
     }
 }

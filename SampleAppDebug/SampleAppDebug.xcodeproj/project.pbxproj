@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4409AFA82A0C0054001B61C9 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 4409AFA72A0C0054001B61C9 /* amplifyconfiguration.json */; };
 		442ECC762A05FB5D003F864C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442ECC752A05FB5D003F864C /* GoogleService-Info.plist */; };
 		44F6E54429FA6ED800899AB3 /* SampleAppDebugApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6E54329FA6ED800899AB3 /* SampleAppDebugApp.swift */; };
 		44F6E54629FA6ED800899AB3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6E54529FA6ED800899AB3 /* ContentView.swift */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4409AFA62A0BF9C1001B61C9 /* SampleAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SampleAppDebug.entitlements; sourceTree = "<group>"; };
+		4409AFA72A0C0054001B61C9 /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		442ECC752A05FB5D003F864C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		443E8C2E29FFA6BA00D7DD20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		44F6E54029FA6ED800899AB3 /* SampleAppDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleAppDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,8 +103,10 @@
 		44F6E54229FA6ED800899AB3 /* SampleAppDebug */ = {
 			isa = PBXGroup;
 			children = (
+				4409AFA62A0BF9C1001B61C9 /* SampleAppDebug.entitlements */,
 				443E8C2E29FFA6BA00D7DD20 /* Info.plist */,
 				442ECC752A05FB5D003F864C /* GoogleService-Info.plist */,
+				4409AFA72A0C0054001B61C9 /* amplifyconfiguration.json */,
 				44F6E54329FA6ED800899AB3 /* SampleAppDebugApp.swift */,
 				44F6E54529FA6ED800899AB3 /* ContentView.swift */,
 				44F6E54729FA6ED900899AB3 /* Assets.xcassets */,
@@ -253,6 +258,7 @@
 				44F6E54B29FA6ED900899AB3 /* Preview Assets.xcassets in Resources */,
 				44F6E54829FA6ED900899AB3 /* Assets.xcassets in Resources */,
 				442ECC762A05FB5D003F864C /* GoogleService-Info.plist in Resources */,
+				4409AFA82A0C0054001B61C9 /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +464,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SampleAppDebug/SampleAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SampleAppDebug/Preview Content\"";
@@ -491,6 +498,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SampleAppDebug/SampleAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SampleAppDebug/Preview Content\"";

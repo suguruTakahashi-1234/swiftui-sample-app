@@ -9,8 +9,8 @@ import Foundation
 
 /// @mockable
 public protocol AuthManagerProtocol {
-    func createUser(email: String, password: String) async throws -> AuthResult
-    func signIn(email: String, password: String) async throws -> AuthResult
-    func getUserIdToken() async throws -> String
+    func signUp(username: String, password: String, email: String) async throws
+    func confirmSignUp(for username: String, with confirmationCode: String) async throws
+    func signIn(username: String, password: String, email: String) async throws
     func signOut() async throws
 }
