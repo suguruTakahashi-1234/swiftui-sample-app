@@ -31,10 +31,10 @@ jobs:
         echo "Fetching requested reviewers..."
         REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews \
-          | jq -r '.[] | select(.state!="APPROVED") | .user.login')
+          | jq -r '.[] | select(.state!="APPROVED" and .state!="COMMENTED" and .state!="CHANGES_REQUESTED") | .user.login')
 
         if [ -z "$REVIEWERS" ]; then
-          echo "No reviewers found or all reviewers have approved."
+          echo "No reviewers found or all reviewers have already submitted a review."
           exit 0
         fi
 
