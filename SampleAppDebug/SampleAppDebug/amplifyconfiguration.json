@@ -1,23 +1,39 @@
 {
-  "auth": {
-    "plugins": {
-      "awsCognitoAuthPlugin": {
-        "IdentityManager": {
-          "Default": {}
-        },
-        "CognitoUserPool": {
-          "Default": {
-            "PoolId": "変更する",
-            "AppClientId": "変更する",
-            "Region": "変更する"
-          }
-        },
-        "Auth": {
-          "Default": {
-            "authenticationFlowType": "USER_SRP_AUTH"
-          }
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "TODO: 更新する",
+                            "Region": "ap-northeast-1"
+                        }
+                    }
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "TODO: 更新する",
+                        "AppClientId": "TODO: 更新する",
+                        "Region": "ap-northeast-1"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                        "authenticationFlowType": "USER_SRP_AUTH"
+                    }
+                }
+            }
         }
-      }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "TODO: 更新する",
+                "region": "ap-northeast-1"
+            }
+        }
     }
-  }
 }

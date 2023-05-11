@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  LoginView.swift
 //
 //
 //  Created by Suguru Takahashi on 2023/05/10.
@@ -75,6 +75,16 @@ public struct LoginView: View {
                                 .padding()
                                 .background(Color.red)
                                 .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+
+                        Button {
+                            Task { await loginPresenter.uploadCSVFile() }
+                        } label: {
+                            Text("Upload CSV File")
+                                .padding()
+                                .background(Color.yellow)
+                                .foregroundColor(.black)
                                 .cornerRadius(8)
                         }
                     }
