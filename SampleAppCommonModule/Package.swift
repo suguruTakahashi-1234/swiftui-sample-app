@@ -8,6 +8,7 @@ private extension PackageDescription.Target.Dependency {
     // Amplify
     static let amplify: Self = .product(name: "Amplify", package: "amplify-swift")
     static let awsCognitoAuthPlugin: Self = .product(name: "AWSCognitoAuthPlugin", package: "amplify-swift")
+    static let awsS3StoragePlugin: Self = .product(name: "AWSS3StoragePlugin", package: "amplify-swift")
     // Firebase
     static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
     static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
@@ -65,7 +66,7 @@ let package = Package(
         ),
         .target(
             name: "SampleAppFramework",
-            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth, .amplify, .awsCognitoAuthPlugin],
+            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth, .amplify, .awsCognitoAuthPlugin, .awsS3StoragePlugin],
             plugins: [.swiftlint]
         ),
         .target(
@@ -75,7 +76,8 @@ let package = Package(
         ),
         .target(
             name: "SampleAppCommonModule",
-            dependencies: [.appPresentation, .firebaseAnalytics, .firebaseCrashlytics, .amplify, .awsCognitoAuthPlugin]
+            dependencies: [.appPresentation, .firebaseAnalytics, .firebaseCrashlytics, .amplify, .awsCognitoAuthPlugin, .awsS3StoragePlugin],
+            plugins: [.swiftlint]
         ),
         .testTarget(
             name: "SampleAppCommonModuleTests",

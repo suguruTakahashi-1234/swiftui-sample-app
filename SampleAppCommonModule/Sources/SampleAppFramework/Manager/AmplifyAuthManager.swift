@@ -10,8 +10,6 @@ import AWSCognitoAuthPlugin
 import Foundation
 import SampleAppDomain
 
-public enum AmplifyAuthManagerError {}
-
 public class AmplifyAuthManager: AuthManagerProtocol {
     public init() {}
 

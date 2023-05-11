@@ -18,9 +18,11 @@ class LoginPresenter: ObservableObject {
     @Published private(set) var alertMessage: String = ""
 
     private let authManager: AuthManagerProtocol
+    private let cloudFileManager: CloudFileManagerProtocol
 
-    init(authManager: AuthManagerProtocol = AmplifyAuthManager()) {
+    init(authManager: AuthManagerProtocol = AmplifyAuthManager(), cloudFileManager: CloudFileManagerProtocol = AmplifyCloudFileManager()) {
         self.authManager = authManager
+        self.cloudFileManager = cloudFileManager
     }
 
     @MainActor
@@ -29,7 +31,7 @@ class LoginPresenter: ObservableObject {
             try await authManager.signUp(username: username, password: password, email: email)
             print("User created successfully")
         } catch {
-            alertMessage = "Error creating user: \(error.localizedDescription)"
+            alertMessage = "Error creating user: \(error)"
             showAlert = true
         }
     }
@@ -40,7 +42,7 @@ class LoginPresenter: ObservableObject {
             try await authManager.confirmSignUp(for: username, with: confirmationCode)
             print("User confirmed successfully")
         } catch {
-            alertMessage = "Error confirming user: \(error.localizedDescription)"
+            alertMessage = "Error confirming user: \(error)"
             showAlert = true
         }
     }
@@ -51,7 +53,7 @@ class LoginPresenter: ObservableObject {
             try await authManager.signIn(username: username, password: password, email: email)
             print("User signed in successfully")
         } catch {
-            alertMessage = "Error signing in: \(error.localizedDescription)"
+            alertMessage = "Error signing in: \(error)"
             showAlert = true
         }
     }
@@ -61,7 +63,18 @@ class LoginPresenter: ObservableObject {
         do {
             try await authManager.signOut()
         } catch {
-            alertMessage = "Error signing in: \(error.localizedDescription)"
+            alertMessage = "Error signing in: \(error)"
+            showAlert = true
+        }
+    }
+
+    @MainActor
+    func uploadCSVFile() async {
+        do {
+            try await cloudFileManager.uploadCSVFile()
+            print("CSV file uploaded successfully")
+        } catch {
+            alertMessage = "Error uploading CSV file: \(error)"
             showAlert = true
         }
     }

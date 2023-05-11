@@ -7,6 +7,7 @@
 
 import Amplify
 import AWSCognitoAuthPlugin
+import AWSS3StoragePlugin
 import FirebaseAnalytics
 import FirebaseCore
 import FirebaseCrashlytics
@@ -45,8 +46,9 @@ private extension AppDelegate {
     func setupAmplify() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin())
             try Amplify.configure()
-            print("Amplify configured with auth plugin")
+            print("Amplify configured with Auth and Storage plugins")
         } catch {
             print("Failed to initialize Amplify with \(error)")
         }
