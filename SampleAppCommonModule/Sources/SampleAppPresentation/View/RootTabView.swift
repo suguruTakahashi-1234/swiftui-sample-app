@@ -19,6 +19,8 @@ extension RootTabType: Identifiable {
             return "login"
         case .home:
             return "home"
+        case .web:
+            return "web"
         case .order:
             return "order"
         case .setting:
@@ -32,6 +34,8 @@ extension RootTabType: Identifiable {
             return Image(systemName: "person")
         case .home:
             return Image(systemName: "house")
+        case .web:
+            return Image(systemName: "globe.americas")
         case .order:
             return Image(systemName: "cup.and.saucer")
         case .setting:
@@ -50,6 +54,8 @@ extension RootTabType: Identifiable {
             LoginView()
         case .home:
             HomeView(homePresenter: HomePresenter())
+        case .web:
+            WebRootView()
         case .order:
             OrderView(orderPresenter: OrderPresenter())
         case .setting:
