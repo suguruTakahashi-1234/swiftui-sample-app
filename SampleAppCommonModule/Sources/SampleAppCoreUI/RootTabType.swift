@@ -7,9 +7,12 @@
 
 import Foundation
 
-public enum RootTabType: Equatable, CaseIterable {
+public enum RootTabType {
     case login
     case home
+    case web
     case order
     case setting
 }
+
+extension RootTabType: Equatable, CaseIterable {}
