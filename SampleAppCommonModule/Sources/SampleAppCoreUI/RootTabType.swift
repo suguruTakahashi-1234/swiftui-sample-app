@@ -9,10 +9,10 @@ import Foundation
 
 public enum RootTabType {
     case login
-    case home
     case web
     case order
     case setting
+    case debug
 }
 
 extension RootTabType: Equatable, CaseIterable {}

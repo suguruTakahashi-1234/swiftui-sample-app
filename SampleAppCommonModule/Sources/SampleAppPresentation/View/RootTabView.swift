@@ -17,14 +17,14 @@ extension RootTabType: Identifiable {
         switch self {
         case .login:
             return "login"
-        case .home:
-            return "home"
         case .web:
             return "web"
         case .order:
             return "order"
         case .setting:
             return "setting"
+        case .debug:
+            return "debug"
         }
     }
 
@@ -32,14 +32,14 @@ extension RootTabType: Identifiable {
         switch self {
         case .login:
             return Image(systemName: "person")
-        case .home:
-            return Image(systemName: "house")
         case .web:
             return Image(systemName: "globe.americas")
         case .order:
             return Image(systemName: "cup.and.saucer")
         case .setting:
             return Image(systemName: "gearshape")
+        case .debug:
+            return Image(systemName: "wrench.and.screwdriver")
         }
     }
 
@@ -52,14 +52,14 @@ extension RootTabType: Identifiable {
         switch self {
         case .login:
             LoginView()
-        case .home:
-            HomeView(homePresenter: HomePresenter())
         case .web:
             WebRootView()
         case .order:
             OrderView(orderPresenter: OrderPresenter())
         case .setting:
             SettingView()
+        case .debug:
+            DebugRootView()
         }
     }
 }
@@ -71,7 +71,7 @@ public struct RootTabView: View {
     // イニシャライザで rootTabPresenter の初期化を行なっている。（結合テストの責務？）
     // 正直、今の実装はやりすぎかもしれない。View 側で RootTabType の指定が不要であれば、
     // RootTabPresenter 側でも RootTabType を引数として取る必要はない。
-    public init(selectedTabType: RootTabType = .home) {
+    public init(selectedTabType: RootTabType = .debug) {
         _rootTabPresenter = StateObject(wrappedValue: RootTabPresenter(selectedTabType: selectedTabType))
     }
 
@@ -93,7 +93,7 @@ struct RootTabView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             RootTabView()
-            RootTabView(selectedTabType: .home)
+            RootTabView(selectedTabType: .debug)
         }
     }
 }

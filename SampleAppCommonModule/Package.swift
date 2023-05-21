@@ -26,6 +26,7 @@ private extension PackageDescription.Target.Dependency {
 
 private extension PackageDescription.Target.PluginUsage {
     static let swiftlint: Self = .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
+    static let licensesPlugin: Self = .plugin(name: "LicensesPlugin", package: "LicensesPlugin")
 }
 
 let package = Package(
@@ -42,10 +43,11 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint", branch: "main"),
+        .package(url: "https://github.com/maiyama18/LicensesPlugin", branch: "main"),
         .package(url: "https://github.com/Quick/Quick", branch: "main"),
         .package(url: "https://github.com/Quick/Nimble", branch: "main"),
         .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "master"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.9.0"), // Failed to resolve dependencies Dependencies could not be resolved because no versions of 'googleappmeasurement' match the requirement 10.10.0 and 'firebase-ios-sdk' depends on 'googleappmeasurement' 10.10.0.
         .package(url: "https://github.com/aws-amplify/amplify-swift", branch: "main"),
     ],
     targets: [
@@ -72,7 +74,7 @@ let package = Package(
         .target(
             name: "SampleAppPresentation",
             dependencies: [.appCoreFoundation, .appCoreUI, .appFramework],
-            plugins: [.swiftlint]
+            plugins: [.swiftlint, .licensesPlugin]
         ),
         .target(
             name: "SampleAppCommonModule",
