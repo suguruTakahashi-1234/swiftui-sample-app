@@ -13,6 +13,7 @@ private extension PackageDescription.Target.Dependency {
     static let firebaseAuth: Self = .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
     static let firebaseAnalytics: Self = .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
     static let firebaseCrashlytics: Self = .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
+    static let swiftProtobuf: Self = .product(name: "SwiftProtobuf", package: "swift-protobuf")
     // Quick/Nimble
     static let quick: Self = .product(name: "Quick", package: "Quick")
     static let nimble: Self = .product(name: "Nimble", package: "Nimble")
@@ -49,6 +50,7 @@ let package = Package(
         .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.9.0"), // Failed to resolve dependencies Dependencies could not be resolved because no versions of 'googleappmeasurement' match the requirement 10.10.0 and 'firebase-ios-sdk' depends on 'googleappmeasurement' 10.10.0.
         .package(url: "https://github.com/aws-amplify/amplify-swift", branch: "main"),
+        .package(url: "https://github.com/apple/swift-protobuf", exact: "1.21.0"),
     ],
     targets: [
         .target(
@@ -68,7 +70,7 @@ let package = Package(
         ),
         .target(
             name: "SampleAppFramework",
-            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth, .amplify, .awsCognitoAuthPlugin, .awsS3StoragePlugin],
+            dependencies: [.appCoreFoundation, .appDomain, .firebaseAuth, .amplify, .awsCognitoAuthPlugin, .awsS3StoragePlugin, .swiftProtobuf],
             plugins: [.swiftlint]
         ),
         .target(

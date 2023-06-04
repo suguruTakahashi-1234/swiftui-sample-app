@@ -35,5 +35,35 @@
                 "region": "ap-northeast-1"
             }
         }
+    },
+    "analytics": {
+        "plugins": {
+            "awsPinpointAnalyticsPlugin": {
+                "pinpointAnalytics": {
+                    "appId": "TODO: 更新する",
+                    "region": "us-east-1"
+                }
+            }
+        }
+    },
+    "notifications": {
+        "plugins": {
+            "awsPinpointPushNotificationsPlugin": {
+                "appId": "TODO: 更新する",
+                "region": "us-east-1"
+            }
+        }
+    },
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "graphql": {
+                    "endpointType": "GraphQL",
+                    "endpoint": "TODO: 更新する",
+                    "region": "ap-northeast-1",
+                    "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+                }
+            }
+        }
     }
 }

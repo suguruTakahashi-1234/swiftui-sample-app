@@ -46,11 +46,20 @@ private extension AppDelegate {
     func setupAmplify() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.add(plugin: AWSS3StoragePlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin(configuration: .prefixResolver(CustomAWSS3PluginPrefixResolver())))
             try Amplify.configure()
             print("Amplify configured with Auth and Storage plugins")
         } catch {
             print("Failed to initialize Amplify with \(error)")
         }
+    }
+}
+
+import AWSPluginsCore
+
+// S3のアップロード先が勝手にpublicにならないように空文字をセットしている
+struct CustomAWSS3PluginPrefixResolver: AWSS3PluginPrefixResolver {
+    func resolvePrefix(for _: StorageAccessLevel, targetIdentityId _: String?) async throws -> String {
+        ""
     }
 }
