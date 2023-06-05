@@ -15,7 +15,7 @@
       "location" : "https://github.com/aws-amplify/amplify-swift",
       "state" : {
         "branch" : "main",
-        "revision" : "758119b568aff5215997217909c68988326d7582"
+        "revision" : "d34ab0cd02158ab28d0318c6829122981d3449ba"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "5034479ca0c4f32f299677fb0ba1fe4d3e3e20b4",
-        "version" : "10.10.0"
+        "branch" : "master",
+        "revision" : "9099f7fba6d506f95a6fbbc402c89a4165496e8a"
       }
     },
     {
@@ -177,7 +177,7 @@
       "location" : "https://github.com/Quick/Nimble",
       "state" : {
         "branch" : "main",
-        "revision" : "3f372afc6b9866296fcebbe2a46279c6b7271ddd"
+        "revision" : "3c81754d6174885759be729fd36e91e4c946be48"
       }
     },
     {
@@ -195,7 +195,7 @@
       "location" : "https://github.com/Quick/Quick",
       "state" : {
         "branch" : "main",
-        "revision" : "e206b8deba0d01fce70388a6d9dc66cba5603958"
+        "revision" : "a77506a7a389b54688b7b8e48226d56bde360c80"
       }
     },
     {
@@ -275,8 +275,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
-        "revision" : "27cd6190ce0628847a3f8050794d6e627ad79c08",
-        "version" : "509.0.0-swift-DEVELOPMENT-SNAPSHOT-2023-05-02-a"
+        "revision" : "2a9988f32c3439b1c850673cfccb085ddcde1395",
+        "version" : "509.0.0-swift-5.9-DEVELOPMENT-SNAPSHOT-2023-04-10-a"
       }
     },
     {
@@ -285,7 +285,7 @@
       "location" : "https://github.com/nicklockwood/SwiftFormat",
       "state" : {
         "branch" : "master",
-        "revision" : "2e0a938fdffad2317980c5335122f1ab4d48c8d5"
+        "revision" : "d98aa3f098f38e93324cfda8ee909581cf3d791d"
       }
     },
     {
@@ -294,7 +294,7 @@
       "location" : "https://github.com/realm/SwiftLint",
       "state" : {
         "branch" : "main",
-        "revision" : "2f9997e2ccada7fcc304326f80b921d1646e087d"
+        "revision" : "9054ec0658650e9a2a21e37a643b7c0f391487b9"
       }
     },
     {
@@ -311,8 +311,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/drmohundro/SWXMLHash.git",
       "state" : {
-        "revision" : "a853604c9e9a83ad9954c7e3d2a565273982471f",
-        "version" : "7.0.2"
+        "revision" : "4d0f62f561458cbe1f732171e625f03195151b60",
+        "version" : "7.0.1"
       }
     },
     {

@@ -8,6 +8,8 @@
 import SwiftUI
 
 public struct RootView: View {
+    @StateObject private var loadingStatePresenter = LoadingStatePresenter()
+
     public init() {}
 
     public var body: some View {
@@ -15,11 +17,13 @@ public struct RootView: View {
             NavigationStack {
                 RootTabView()
                     .navigationTitle("Smaple App")
+                    .overlayLoading(isPresented: $loadingStatePresenter.isLoading, allowsGesture: $loadingStatePresenter.allowsGesture)
             }
         } else {
             NavigationView {
                 RootTabView()
                     .navigationTitle("Smaple App")
+                    .overlayLoading(isPresented: $loadingStatePresenter.isLoading, allowsGesture: $loadingStatePresenter.allowsGesture)
             }
         }
     }

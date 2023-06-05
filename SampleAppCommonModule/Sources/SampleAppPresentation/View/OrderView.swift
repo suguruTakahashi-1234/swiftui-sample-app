@@ -15,6 +15,13 @@ struct OrderView: View {
     var body: some View {
         if #available(iOS 16.0, *) {
             NavigationStack {
+                Button(action: { orderPresenter.shownLoadingViewTapped() }) {
+                    Text("LoadingView")
+                }
+                .sheet(isPresented: $orderPresenter.isShownLoadingView) {
+                    LoadingTopView()
+                }
+
                 Spacer()
 
                 Button(action: { orderPresenter.menuButtonTapped() }) {
@@ -60,8 +67,6 @@ struct OrderView: View {
                         )
                     )
                 }
-
-                Spacer()
             }
         } else {
             // TODO: 修正する
