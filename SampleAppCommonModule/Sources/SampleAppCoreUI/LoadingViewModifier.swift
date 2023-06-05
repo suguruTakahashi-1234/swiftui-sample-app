@@ -28,7 +28,7 @@ struct LoadingViewModifier: ViewModifier {
 }
 
 public extension View {
-    func overlayLoading(isPresented: Binding<Bool>, allowsGesture: Binding<Bool>) -> some View {
+    func overlayLoading(isPresented: Binding<Bool>, allowsGesture: Binding<Bool> = .constant(true)) -> some View {
         modifier(LoadingViewModifier(isPresented: isPresented, allowsGesture: allowsGesture))
     }
 }
