@@ -13,5 +13,5 @@ jobs:
         with:
           # Ref: https://github.com/marketplace/actions/auto-assign-action#single-reviewers-list
           configuration-path: '.github/auto_assign.yml'
-          # NOTE: Personal Access Token
+          # NOTE: `repo` scope personal access token (classic)
           repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

@@ -2,7 +2,7 @@ name: Move PR Into Review Lane
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, ready_for_review]
 
 jobs:
   automate-project-columns:
@@ -12,6 +12,6 @@ jobs:
       - uses: alex-page/github-project-automation-plus@v0.8.3
         with:
           project: sample-project
-          column: In Review(PR)
-          # NOTE: Personal Access Token
+          column: In Review
+          # NOTE: `repo` scope personal access token (classic)
           repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
