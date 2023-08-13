@@ -1,0 +1,17 @@
+name: Auto Assign PR
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  add-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      # Ref: https://github.com/marketplace/actions/auto-assign-action
+      - uses: kentaro-m/auto-assign-action@v1.2.5
+        with:
+          # Ref: https://github.com/marketplace/actions/auto-assign-action#single-reviewers-list
+          configuration-path: '.github/auto_assign.yml'
+          # NOTE: Personal Access Token
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
