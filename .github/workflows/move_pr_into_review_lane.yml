@@ -1,0 +1,17 @@
+name: Move PR Into Review Lane
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/marketplace/actions/github-project-automation
+      - uses: alex-page/github-project-automation-plus@v0.8.3
+        with:
+          project: sample-project
+          column: In Review(PR)
+          # NOTE: Personal Access Token
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
