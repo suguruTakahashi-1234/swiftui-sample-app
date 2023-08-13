@@ -12,6 +12,6 @@ jobs:
       - uses: alex-page/github-project-automation-plus@v0.8.3
         with:
           project: sample-project
-          column: 👁️ In Review（PR）
+          column: In Review(PR)
           # NOTE: Personal Access Token
           repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
