@@ -60,6 +60,7 @@ public class AmplifyCloudFileManager: CloudFileManagerProtocol {
             let data = try await uploadTask.value
             print("Completed: \(data)")
         } catch {
+            print(error)
             throw error
         }
     }
