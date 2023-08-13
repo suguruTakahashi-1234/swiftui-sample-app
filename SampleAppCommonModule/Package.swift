@@ -33,7 +33,7 @@ private extension PackageDescription.Target.PluginUsage {
 let package = Package(
     name: "SampleAppCommonModule",
     defaultLocalization: "ja",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v16)],
     products: [
         .library(name: "SampleAppCommonModule", targets: ["SampleAppCommonModule"]),
         .library(name: "SampleAppCoreFoundation", targets: ["SampleAppCoreFoundation"]),
