@@ -14,4 +14,4 @@ jobs:
           project: sample-project
           column: 👁️ In Review（PR）
           # NOTE: Personal Access Token
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
