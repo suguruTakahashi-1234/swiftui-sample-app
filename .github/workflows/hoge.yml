@@ -18,7 +18,6 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-
     # Checkout the repository
     - name: Checkout
       uses: actions/checkout@v2
@@ -36,13 +35,30 @@ jobs:
     - name: Generate new tag
       id: generate-tag
       run: |
+        set -euxo pipefail
+
         LATEST_TAG=${{ steps.latest-tag.outputs.tag }}
         VERSION_TYPE=${{ github.event.inputs.versionType }}
+
+        # Debugging Information
+        echo "LATEST_TAG = $LATEST_TAG"
+        echo "VERSION_TYPE = $VERSION_TYPE"
+
+        if ! [[ "$LATEST_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$ ]]; then
+          echo "Error: Invalid tag format found: $LATEST_TAG"
+          exit 1
+        fi
 
         MAJOR=$(echo $LATEST_TAG | cut -d'.' -f1)
         MINOR=$(echo $LATEST_TAG | cut -d'.' -f2)
         PATCH=$(echo $LATEST_TAG | cut -d'.' -f3 | sed 's/-rc.*//')
         PRE_RELEASE=$(echo $LATEST_TAG | grep -oP 'rc\.\K\d+')
+
+        # Debugging Information
+        echo "MAJOR = $MAJOR"
+        echo "MINOR = $MINOR"
+        echo "PATCH = $PATCH"
+        echo "PRE_RELEASE = $PRE_RELEASE"
 
         case $VERSION_TYPE in
           major) 
