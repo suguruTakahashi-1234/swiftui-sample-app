@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       versionType:
+        type: choice
         description: 'Type of version to increment'
         required: true
-        type: choice
         default: 'pre-release'
         options:
           - major
@@ -18,14 +18,28 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-    # Checkout the repository
+
+    # Checkout the repository with full fetch depth
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-    # Fetch all tags and generate a new tag
-    - name: Fetch tags and generate new tag
+    # Fetch all tags
+    - name: Fetch all tags
+      run: git fetch --tags
+
+    # Debug information
+    - name: Display git information
       run: |
-        git fetch --tags
+        echo "Current branch:"
+        git branch --show-current
+        echo "All tags:"
+        git tag
+
+    # Get the latest tag and generate the new one
+    - name: Generate tag
+      run: |
         LATEST_TAG=$(git describe --tags --abbrev=0 || echo "0.0.0")
         echo "Latest tag: $LATEST_TAG"
 
@@ -59,7 +73,5 @@ jobs:
 
         NEW_TAG="${MAJOR}.${MINOR}.${PATCH}"
         [ "$VERSION_TYPE" == "pre-release" ] && NEW_TAG="${NEW_TAG}-rc.${PRE_RELEASE}"
-        
-        echo "Generated tag: $NEW_TAG"
 
-    # TODO: Slack notification or any other next steps
+        echo "New tag: $NEW_TAG"
