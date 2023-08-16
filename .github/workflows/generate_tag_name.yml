@@ -93,3 +93,5 @@ jobs:
         fi
 
         echo "New tag: $NEW_TAG"
+
+    # TODO: Slack notification
