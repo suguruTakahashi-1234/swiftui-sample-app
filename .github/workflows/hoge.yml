@@ -86,14 +86,13 @@ jobs:
         fi
 
         NEW_TAG="${MAJOR}.${MINOR}.${PATCH}"
+
         if [ "$USE_PREFIX" == "true" ]; then
-            if [ "$VERSION_TYPE" == "pre-release" ]; then
-              if [ -z "$PRE_RELEASE" ]; then
+            if [ -z "$PRE_RELEASE" ]; then
                 NEW_TAG="${NEW_TAG}-rc.1"
-              else
+            else
                 PRE_RELEASE=$((PRE_RELEASE+1))
                 NEW_TAG="${NEW_TAG}-rc.$PRE_RELEASE"
-              fi
             fi
         fi
 
