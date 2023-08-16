@@ -1,99 +1,84 @@
-name: Tag Generation
+name: Create New Tag
 
 on:
   workflow_dispatch:
     inputs:
       versionType:
-        type: choice
         description: 'Type of version to increment'
         required: true
         default: 'patch'
+        type: 'choice'
         options:
           - major
           - minor
           - patch
           - pre-release
       usePreReleasePrefix:
-        type: boolean
-        description: 'Use pre-release prefix (-rc.x)?'
+        description: 'Append pre-release prefix to the tag?'
         required: true
         default: true
+        type: 'boolean'
       incrementTag:
-        type: boolean
-        description: 'Increment the tag version?'
+        description: 'Should the tag be incremented?'
         required: true
         default: true
+        type: 'boolean'
 
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-
-    # Checkout the repository with full fetch depth
     - name: Checkout
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
 
-    # Fetch all tags
     - name: Fetch all tags
       run: git fetch --tags
 
-    # Debug information
-    - name: Display git information
-      run: |
-        echo "Current branch:"
-        git branch --show-current
-        echo "All tags:"
-        git tag
-
-    # Get the latest tag and generate the new one
-    - name: Generate tag
+    - name: Determine latest and new tag
       run: |
         LATEST_TAG=$(git describe --tags --abbrev=0 || echo "0.0.0")
         echo "Latest tag: $LATEST_TAG"
 
         VERSION_TYPE=${{ github.event.inputs.versionType }}
         USE_PREFIX=${{ github.event.inputs.usePreReleasePrefix }}
-        INCREMENT_TAG=${{ github.event.inputs.incrementTag }}
+        INCREMENT=${{ github.event.inputs.incrementTag }}
+
         MAJOR=$(echo $LATEST_TAG | cut -d'.' -f1)
         MINOR=$(echo $LATEST_TAG | cut -d'.' -f2)
         PATCH=$(echo $LATEST_TAG | cut -d'.' -f3 | sed 's/-rc.*//')
         PRE_RELEASE=$(echo $LATEST_TAG | grep -oP 'rc\.\K\d+')
 
-        if [ "$INCREMENT_TAG" == "true" ]; then
-          case $VERSION_TYPE in
-            major) 
-              MAJOR=$((MAJOR+1))
-              MINOR=0
-              PATCH=0
-              ;;
-            minor)
-              MINOR=$((MINOR+1))
-              PATCH=0
-              ;;
-            patch)
-              PATCH=$((PATCH+1))
-              ;;
-            pre-release)
-              if [ -z "$PRE_RELEASE" ]; then
+        if [ "$INCREMENT" == "true" ]; then
+            case $VERSION_TYPE in
+              major) 
+                MAJOR=$((MAJOR+1))
+                MINOR=0
+                PATCH=0
                 PRE_RELEASE=1
-              else
-                PRE_RELEASE=$((PRE_RELEASE+1))
-              fi
-              ;;
-          esac
+                ;;
+              minor)
+                MINOR=$((MINOR+1))
+                PATCH=0
+                PRE_RELEASE=1
+                ;;
+              patch)
+                PATCH=$((PATCH+1))
+                PRE_RELEASE=1
+                ;;
+              pre-release)
+                if [ -z "$PRE_RELEASE" ]; then
+                  PRE_RELEASE=1
+                else
+                  PRE_RELEASE=$((PRE_RELEASE+1))
+                fi
+                ;;
+            esac
         fi
 
         NEW_TAG="${MAJOR}.${MINOR}.${PATCH}"
 
         if [ "$USE_PREFIX" == "true" ]; then
-            if [ -z "$PRE_RELEASE" ]; then
-                NEW_TAG="${NEW_TAG}-rc.1"
-            else
-                PRE_RELEASE=$((PRE_RELEASE+1))
-                NEW_TAG="${NEW_TAG}-rc.$PRE_RELEASE"
-            fi
+            NEW_TAG="${NEW_TAG}-rc.$PRE_RELEASE"
         fi
 
         echo "New tag: $NEW_TAG"
