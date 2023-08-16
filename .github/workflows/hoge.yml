@@ -30,9 +30,20 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
+    # Fetch all tags
     - name: Fetch all tags
       run: git fetch --tags
+
+    # Debug information
+    - name: Display git information
+      run: |
+        echo "Current branch:"
+        git branch --show-current
+        echo "All tags:"
+        git tag
 
     - name: Determine latest and new tag
       run: |
