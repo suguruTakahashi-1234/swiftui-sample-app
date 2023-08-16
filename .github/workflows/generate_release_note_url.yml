@@ -12,21 +12,19 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-    # タグの形式を確認する
-    - name: Check tag format
+    - name: Generate Release Note URL and Validate Tag
       run: |
+        # Check tag format
         TAG_FORMAT="^([0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?)$"
         if [[ ! "${{ github.event.inputs.tag }}" =~ $TAG_FORMAT ]]; then
           echo "Error: Invalid tag format!"
           exit 1
         fi
-    # github.ref からブランチ名を抽出する
-    - name: Extract branch name from github.ref
-      id: extract_branch
-      run: echo "::set-output name=branch::$(echo ${{ github.ref }} | sed 's/refs\/heads\///')"
-    # リリースノートのURLを出力する
-    - name: Print the release note URL
-      run: |
-        echo "https://github.com/suguruTakahashi-1234/SwiftUI-Sample-App/releases/new?tag=${{ github.event.inputs.tag }}&title=${{ github.event.inputs.tag }}&target=${{ steps.extract_branch.outputs.branch }}&prerelease=1"
+        
+        # Extract branch name from github.ref
+        BRANCH_NAME=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')
+        
+        # Print the release note URL
+        echo "https://github.com/suguruTakahashi-1234/SwiftUI-Sample-App/releases/new?tag=${{ github.event.inputs.tag }}&title=${{ github.event.inputs.tag }}&target=$BRANCH_NAME&prerelease=1"
 
     # TODO: Slack notification
