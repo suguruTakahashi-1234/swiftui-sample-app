@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           script: |
             // Ref: github-script https://github.com/actions/github-script
             const prTitle = context.payload.pull_request.title.toLowerCase();  // 大文字・小文字の区別をしない
