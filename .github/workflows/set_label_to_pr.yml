@@ -12,7 +12,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Ref: https://github.com/actions/github-script
+            // Ref: github-script https://github.com/actions/github-script
             const prTitle = context.payload.pull_request.title.toLowerCase();  // 大文字・小文字の区別をしない
 
             // キーワードとラベルのマッピングを配列で保持

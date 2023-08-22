@@ -15,6 +15,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             // Ref: PRにマイルストーンを自動設定 https://qiita.com/stnamco/items/06d2147c93a1cca97371
+            // Ref: https://octokit.github.io/rest.js/v20
             const milestones = await github.rest.issues.listMilestones({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -30,7 +31,7 @@ jobs:
               return;
             }
 
-            await github.issues.update({
+            await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
