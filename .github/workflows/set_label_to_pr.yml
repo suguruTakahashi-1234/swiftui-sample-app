@@ -18,7 +18,7 @@ jobs:
             // キーワードとラベルのマッピングを配列で保持
             const keywordMapping = [
               { keywords: ['バグ', '不具合', 'hotfix'], label: 'bug' },
-              { keywords: ['ドキュメント', 'readme', 'github'], label: 'documentation' }
+              { keywords: ['ドキュメント', 'readme', 'github', 'xcode cloud'], label: 'documentation' }
             ];
 
             let labelToApply = 'enhancement';  // デフォルトのラベル
