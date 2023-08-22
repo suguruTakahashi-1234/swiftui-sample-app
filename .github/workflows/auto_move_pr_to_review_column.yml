@@ -1,4 +1,5 @@
 name: Auto Move PR to Review Column
+
 on:
   pull_request:
     types: [opened]
@@ -7,41 +8,41 @@ jobs:
   move-card:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        script: |
-          const projectId = 1;
-          const columnName = "👀 In Review (PR)";
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const projectId = 1;
+            const columnName = "👀 In Review (PR)";
 
-          async function getColumnId() {
-            const columns = await github.rest.projects.listColumns({ project_id: projectId });
-            const column = columns.data.find(col => col.name === columnName);
-            if (column) {
-              return column.id;
-            } else {
-              throw new Error(`Column "${columnName}" not found`);
+            async function getColumnId() {
+              const columns = await github.rest.projects.listColumns({ project_id: projectId });
+              const column = columns.data.find(col => col.name === columnName);
+              if (column) {
+                return column.id;
+              } else {
+                throw new Error(`Column "${columnName}" not found`);
+              }
             }
-          }
 
-          async function getCardId(issueId) {
-            const cards = await github.rest.projects.listCards({ project_id: projectId });
-            const card = cards.data.find(card => card.content_id === issueId);
-            if (card) {
-              return card.id;
-            } else {
-              throw new Error(`Card for PR #${issueId} not found`);
+            async function getCardId(issueId) {
+              const cards = await github.rest.projects.listCards({ project_id: projectId });
+              const card = cards.data.find(card => card.content_id === issueId);
+              if (card) {
+                return card.id;
+              } else {
+                throw new Error(`Card for PR #${issueId} not found`);
+              }
             }
-          }
 
-          async function run() {
-            const columnId = await getColumnId();
-            const cardId = await getCardId(github.context.payload.pull_request.id);
-            await github.rest.projects.moveCard({
-              card_id: cardId,
-              column_id: columnId,
-              position: "top"
-            });
-          }
+            async function run() {
+              const columnId = await getColumnId();
+              const cardId = await getCardId(github.context.payload.pull_request.id);
+              await github.rest.projects.moveCard({
+                card_id: cardId,
+                column_id: columnId,
+                position: "top"
+              });
+            }
 
-          run();
+            run();
