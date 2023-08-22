@@ -12,9 +12,29 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            // Ref: https://github.com/actions/github-script
+            const prTitle = context.payload.pull_request.title.toLowerCase();  // 大文字・小文字の区別をしない
+
+            // キーワードとラベルのマッピングを配列で保持
+            const keywordMapping = [
+              { keywords: ['バグ', '不具合', 'hotfix'], label: 'bug' },
+              { keywords: ['ドキュメント', 'readme', 'github'], label: 'documentation' }
+            ];
+
+            let labelToApply = 'enhancement';  // デフォルトのラベル
+
+            // キーワードを検査して該当するラベルを見つける
+            for (const mapping of keywordMapping) {
+              if (mapping.keywords.some(keyword => prTitle.includes(keyword.toLowerCase()))) {  // 大文字・小文字の区別をしない
+                labelToApply = mapping.label;
+                break;
+              }
+            }
+
+            // ラベルを付与
             github.rest.issues.addLabels({
               issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['enhancement']
-            })
+              labels: [labelToApply]
+            });
