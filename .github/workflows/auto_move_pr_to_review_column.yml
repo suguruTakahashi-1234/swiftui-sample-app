@@ -16,7 +16,7 @@ jobs:
           const columnName = "👀 In Review (PR)";
 
           async function getColumnId() {
-            const columns = await github.projects.listColumns({ project_id: projectId });
+            const columns = await github.rest.projects.listColumns({ project_id: projectId });
             const column = columns.data.find(col => col.name === columnName);
             if (column) {
               return column.id;
@@ -27,7 +27,7 @@ jobs:
 
           async function run() {
             const columnId = await getColumnId();
-            await github.projects.createCard({
+            await github.rest.projects.createCard({
               column_id: columnId,
               content_id: github.context.payload.pull_request.id,
               content_type: 'PullRequest'
