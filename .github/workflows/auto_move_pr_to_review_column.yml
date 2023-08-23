@@ -1,59 +1,49 @@
 name: Auto Move PR to Review Column
 
 on:
-  pull_request:
-    types: [opened]
-
-jobs:
-  move_pr_to_column:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        script: |
-          const PROJECT_NUMBER = 1;  // この部分を書き換える
-          const COLUMN_NAME = "👀 In Review (PR)";  // この部分を書き換える
-
-          async function getProjectIdFromNumber(projectNumber) {
-            console.log(`Fetching projects for repo: ${context.repo.full_name}`);
-            const projects = await github.rest.repos.listProjects({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            console.log(`Looking for project with number: ${projectNumber} in fetched projects`);
-            const project = projects.data.find(p => p.number === projectNumber);
-            if (!project) {
-              throw new Error(`Project with number ${projectNumber} not found.`);
+    pull_request:
+      types: [opened]
+  
+  jobs:
+    move-card:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const projectId = "PVT_kwHOA5qHzM4APnOD";
+            const columnName = "👀 In Review (PR)";
+  
+            async function getColumnId() {
+              const columns = await github.rest.projects.listColumns({ project_id: projectId });
+              const column = columns.data.find(col => col.name === columnName);
+              if (column) {
+                return column.id;
+              } else {
+                throw new Error(`Column "${columnName}" not found`);
+              }
             }
-            console.log(`Found project ID: ${project.id} for project number: ${projectNumber}`);
-            return project.id;
-          }
-
-          async function getColumnIdFromName(projectId, columnName) {
-            console.log(`Fetching columns for project ID: ${projectId}`);
-            const columns = await github.rest.projects.listColumns({
-              project_id: projectId
-            });
-            console.log(`Looking for column with name: ${columnName} in fetched columns`);
-            const column = columns.data.find(c => c.name === columnName);
-            if (!column) {
-              throw new Error(`Column with name ${columnName} not found.`);
+  
+            async function getCardId(issueId) {
+              const cards = await github.rest.projects.listCards({ project_id: projectId });
+              const card = cards.data.find(card => card.content_id === issueId);
+              if (card) {
+                return card.id;
+              } else {
+                throw new Error(`Card for PR #${issueId} not found`);
+              }
             }
-            console.log(`Found column ID: ${column.id} for column name: ${columnName}`);
-            return column.id;
-          }
-
-          async function movePrToColumn(columnId) {
-            console.log(`Moving PR #${context.payload.pull_request.number} to column: ${COLUMN_NAME}`);
-            await github.rest.projects.createCard({
-              column_id: columnId,
-              content_id: context.payload.pull_request.id,
-              content_type: "PullRequest"
-            });
-            console.log(`Successfully moved PR #${context.payload.pull_request.number} to column: ${COLUMN_NAME}`);
-          }
-
-          const projectId = await getProjectIdFromNumber(PROJECT_NUMBER);
-          const columnId = await getColumnIdFromName(projectId, COLUMN_NAME);
-          await movePrToColumn(columnId);
+  
+            async function run() {
+              const columnId = await getColumnId();
+              const cardId = await getCardId(github.context.payload.pull_request.id);
+              await github.rest.projects.moveCard({
+                card_id: cardId,
+                column_id: columnId,
+                position: "top"
+              });
+            }
+  
+            run();
+  
