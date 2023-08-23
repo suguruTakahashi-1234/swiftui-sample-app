@@ -1,8 +1,11 @@
 name: Auto Move PR to Review Column
 
+# on:
+#   pull_request:
+#     types: [opened]
+
 on:
-  pull_request:
-    types: []
+  workflow_dispatch:
 
 jobs:
   move-card:
