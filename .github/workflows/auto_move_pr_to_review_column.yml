@@ -2,7 +2,7 @@ name: Auto Move PR to Review Column
 
 on:
   pull_request:
-    # types: [opened]
+    types: []
 
 jobs:
   move-card:
