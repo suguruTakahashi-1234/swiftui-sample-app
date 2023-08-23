@@ -5,63 +5,55 @@ on:
     types: [opened]
 
 jobs:
-  move-card:
+  move_pr_to_column:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          script: |
-            const userName = "suguruTakahashi-1234";
-            const projectName = "sample-project";
-            const columnName = "👀 In Review (PR)";
+    - uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        script: |
+          const PROJECT_NUMBER = YOUR_PROJECT_NUMBER_HERE;  // この部分をあなたのプロジェクト番号で置き換えてください
+          const COLUMN_NAME = "👀 In Review (Issue)";
 
-            async function getProjectId() {
-                const projects = await github.rest.projects.listForUser({
-                    username: userName,
-                    state: "open"  // activeなプロジェクトのみ取得
-                });
-                const project = projects.data.find(p => p.name === projectName);
-                if (project) {
-                    console.log(`Found project "${projectName}" with ID: ${project.id}`);
-                    return project.id;
-                } else {
-                    throw new Error(`Project "${projectName}" not found`);
-                }
+          async function getProjectIdFromNumber(projectNumber) {
+            console.log(`Fetching projects for repo: ${context.repo.full_name}`);
+            const projects = await github.rest.repos.listProjects({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            console.log(`Looking for project with number: ${projectNumber} in fetched projects`);
+            const project = projects.data.find(p => p.number === projectNumber);
+            if (!project) {
+              throw new Error(`Project with number ${projectNumber} not found.`);
             }
+            console.log(`Found project ID: ${project.id} for project number: ${projectNumber}`);
+            return project.id;
+          }
 
-            async function getColumnId(projectId) {
-                const columns = await github.rest.projects.listColumns({ project_id: projectId });
-                const column = columns.data.find(col => col.name === columnName);
-                if (column) {
-                    console.log(`Found column "${columnName}" with ID: ${column.id}`);
-                    return column.id;
-                } else {
-                    throw new Error(`Column "${columnName}" not found`);
-                }
+          async function getColumnIdFromName(projectId, columnName) {
+            console.log(`Fetching columns for project ID: ${projectId}`);
+            const columns = await github.rest.projects.listColumns({
+              project_id: projectId
+            });
+            console.log(`Looking for column with name: ${columnName} in fetched columns`);
+            const column = columns.data.find(c => c.name === columnName);
+            if (!column) {
+              throw new Error(`Column with name ${columnName} not found.`);
             }
+            console.log(`Found column ID: ${column.id} for column name: ${columnName}`);
+            return column.id;
+          }
 
-            async function getCardId(issueId, projectId) {
-                const cards = await github.rest.projects.listCards({ project_id: projectId });
-                const card = cards.data.find(card => card.content_id === issueId);
-                if (card) {
-                    console.log(`Found card for PR #${issueId} with ID: ${card.id}`);
-                    return card.id;
-                } else {
-                    throw new Error(`Card for PR #${issueId} not found`);
-                }
-            }
+          async function movePrToColumn(columnId) {
+            console.log(`Moving PR #${context.payload.pull_request.number} to column: ${COLUMN_NAME}`);
+            await github.rest.projects.createCard({
+              column_id: columnId,
+              content_id: context.payload.pull_request.id,
+              content_type: "PullRequest"
+            });
+            console.log(`Successfully moved PR #${context.payload.pull_request.number} to column: ${COLUMN_NAME}`);
+          }
 
-            async function run() {
-                const projectId = await getProjectId();
-                const columnId = await getColumnId(projectId);
-                const cardId = await getCardId(github.context.payload.pull_request.id, projectId);
-                await github.rest.projects.moveCard({
-                    card_id: cardId,
-                    column_id: columnId,
-                    position: "top"
-                });
-                console.log(`Successfully moved card with ID: ${cardId} to column with ID: ${columnId}`);
-            }
-
-            run();
+          const projectId = await getProjectIdFromNumber(PROJECT_NUMBER);
+          const columnId = await getColumnIdFromName(projectId, COLUMN_NAME);
+          await movePrToColumn(columnId);
