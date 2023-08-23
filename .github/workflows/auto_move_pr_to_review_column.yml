@@ -12,7 +12,7 @@ jobs:
       with:
         github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         script: |
-          const projectId = "PVT_kwHOA5qHzM4APnOD";
+          const projectId = 1;
           const columnName = "👀 In Review (PR)";
 
           console.log(`Project ID: ${projectId}`);
