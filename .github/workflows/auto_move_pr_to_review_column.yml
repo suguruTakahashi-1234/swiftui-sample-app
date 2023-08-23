@@ -1,8 +1,11 @@
 name: Auto Move PR to Review Column
 
+# on:
+#   pull_request:
+#     types: [opened]
+
 on:
-  pull_request:
-    types: [opened]
+  workflow_dispatch:
 
 jobs:
   move-card:
@@ -13,24 +16,58 @@ jobs:
         github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         script: |
           const projectId = 1;
-          const columnName = "👀 In Review (Issue)";
+          const columnName = "👀 In Review (PR)";
+
+          console.log(`Project ID: ${projectId}`);
+          console.log(`Target Column Name: ${columnName}`);
+
+          // Fetch the project details using the provided projectId
+          async function getProjectDetails() {
+            try {
+              const project = await github.rest.projects.get({
+                project_id: projectId
+              });
+              console.log(`Project Details:`, project.data);
+            } catch (error) {
+              console.error(`Failed to fetch project details:`, error);
+            }
+          }
 
           async function getColumnId() {
-            const columns = await github.projects.listColumns({ project_id: projectId });
+            const columns = await github.rest.projects.listColumns({ project_id: projectId });
+            console.log(`Columns:`, columns.data);
+            
             const column = columns.data.find(col => col.name === columnName);
             if (column) {
+              console.log(`Found Column ID: ${column.id}`);
               return column.id;
             } else {
               throw new Error(`Column "${columnName}" not found`);
             }
           }
 
+          async function getCardId(issueId) {
+            const cards = await github.rest.projects.listCards({ project_id: projectId });
+            console.log(`Cards:`, cards.data);
+            
+            const card = cards.data.find(card => card.content_id === issueId);
+            if (card) {
+              console.log(`Found Card ID: ${card.id}`);
+              return card.id;
+            } else {
+              throw new Error(`Card for PR #${issueId} not found`);
+            }
+          }
+
           async function run() {
+            await getProjectDetails();
             const columnId = await getColumnId();
-            await github.projects.createCard({
+            const cardId = await getCardId(github.context.payload.pull_request.id);
+            
+            await github.rest.projects.moveCard({
+              card_id: cardId,
               column_id: columnId,
-              content_id: github.context.payload.pull_request.id,
-              content_type: 'PullRequest'
+              position: "top"
             });
           }
 
