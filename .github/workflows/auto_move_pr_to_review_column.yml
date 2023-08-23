@@ -12,8 +12,8 @@ jobs:
       with:
         github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         script: |
-          const PROJECT_NUMBER = YOUR_PROJECT_NUMBER_HERE;  // この部分をあなたのプロジェクト番号で置き換えてください
-          const COLUMN_NAME = "👀 In Review (Issue)";
+          const PROJECT_NUMBER = 1;  // この部分を書き換える
+          const COLUMN_NAME = "👀 In Review (PR)";  // この部分を書き換える
 
           async function getProjectIdFromNumber(projectNumber) {
             console.log(`Fetching projects for repo: ${context.repo.full_name}`);
