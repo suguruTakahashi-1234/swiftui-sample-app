@@ -1,0 +1,18 @@
+name: Move
+
+# on:
+#   pull_request:
+#     types: [assigned]
+
+on:
+  workflow_dispatch:
+
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.3
+        with:
+          project: moge
+          column: hoge
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
