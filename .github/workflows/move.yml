@@ -1,8 +1,11 @@
 name: Move
 
+# on:
+#   pull_request:
+#     types: [assigned]
+
 on:
-  pull_request:
-    types: [assigned]
+  workflow_dispatch:
 
 jobs:
   automate-project-columns:
