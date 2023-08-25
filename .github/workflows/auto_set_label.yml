@@ -1,0 +1,58 @@
+name: Auto Set Label
+
+on:
+  pull_request:
+    types: [opened]
+  issues:
+    types: [opened]
+
+jobs:
+  apply-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const isPullRequest = !!context.payload.pull_request;
+            const number = isPullRequest ? context.payload.pull_request.number : context.payload.issue.number;
+
+            // 既存のラベルを取得
+            const currentIssueOrPR = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: number
+            });
+
+            if (currentIssueOrPR.data.labels && currentIssueOrPR.data.labels.length > 0) {
+              console.log('Labels are already set.');
+              return;
+            }
+
+            const title = isPullRequest ? context.payload.pull_request.title.toLowerCase() : context.payload.issue.title.toLowerCase();  // 大文字・小文字の区別をしない
+
+            // キーワードとラベルのマッピングを配列で保持
+            const keywordMapping = [
+              { keywords: ['バグ', '不具合', 'hotfix'], label: 'bug' },
+              { keywords: ['開発issue', '運用改善', 'github', 'xcode cloud', '開発改善'], label: '開発改善' },
+              { keywords: ['ドキュメン', 'readme'], label: 'documentation' },
+              { keywords: ['調査issue'], label: '調査' }
+            ];
+
+            let labelToApply = 'enhancement';  // デフォルトのラベル
+
+            // キーワードを検査して該当するラベルを見つける
+            for (const mapping of keywordMapping) {
+              if (mapping.keywords.some(keyword => title.includes(keyword.toLowerCase()))) {  // 大文字・小文字の区別をしない
+                labelToApply = mapping.label;
+                break;
+              }
+            }
+
+            // ラベルを付与
+            github.rest.issues.addLabels({
+              issue_number: number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [labelToApply]
+            });

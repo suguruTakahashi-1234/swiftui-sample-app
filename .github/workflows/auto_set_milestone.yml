@@ -1,9 +1,10 @@
-name: Set Milestone To PR
+name: Auto Set Milestone
 
 on:
   pull_request:
-    types:
-      - opened
+    types: [opened, closed]
+  issues:
+    types: [closed]
 
 jobs:
   set-milestone:
@@ -16,6 +17,23 @@ jobs:
           script: |
             // Ref: PRにマイルストーンを自動設定 https://qiita.com/stnamco/items/06d2147c93a1cca97371
             // Ref: https://octokit.github.io/rest.js/v20
+
+            const isPullRequest = !!context.payload.pull_request;
+            const number = isPullRequest ? context.payload.pull_request.number : context.payload.issue.number;
+
+            // Get the current milestone of the PR or issue.
+            const currentIssueOrPR = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: number
+            });
+            
+            // If it already has a milestone, exit.
+            if (currentIssueOrPR.data.milestone) {
+              console.log('Milestone is already set.');
+              return;
+            }
+
             const milestones = await github.rest.issues.listMilestones({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -34,6 +52,6 @@ jobs:
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: number,
               milestone: latestMilestone.number
             });
