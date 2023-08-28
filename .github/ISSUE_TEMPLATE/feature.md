@@ -1,6 +1,6 @@
 ---
 name: 機能開発
-about: ""
+about: "機能開発"
 title: "【】"
 labels: []
 assignees: ""
