@@ -50,7 +50,7 @@ let package = Package(
         .package(url: "https://github.com/nicklockwood/SwiftFormat", branch: "master"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk", branch: "master"), // Failed to resolve dependencies Dependencies could not be resolved because no versions of 'googleappmeasurement' match the requirement 10.10.0 and 'firebase-ios-sdk' depends on 'googleappmeasurement' 10.10.0.
         .package(url: "https://github.com/aws-amplify/amplify-swift", branch: "main"),
-        .package(url: "https://github.com/apple/swift-protobuf", exact: "1.21.0"),
+        .package(url: "https://github.com/apple/swift-protobuf", exact: "1.25.0"),
     ],
     targets: [
         .target(
