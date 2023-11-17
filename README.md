@@ -1,1 +1,1 @@
-# SwiftUI-Sample-App
+# swiftui-sample-app
