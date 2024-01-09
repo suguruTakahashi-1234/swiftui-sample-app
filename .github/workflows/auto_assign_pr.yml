@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Ref: https://github.com/marketplace/actions/auto-assign-action
-      - uses: kentaro-m/auto-assign-action@v1.2.5
+      - uses: kentaro-m/auto-assign-action@v1.2.6
         with:
           # Ref: https://github.com/marketplace/actions/auto-assign-action#single-reviewers-list
           configuration-path: '.github/auto_assign.yml'
